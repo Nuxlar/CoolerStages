@@ -3,19 +3,19 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering.PostProcessing;
 
-public class Stage1Something
+public class Stage1Mech
 {
   // RoR2/Base/Common/TrimSheets/matTrimsheetPurpleStoneSkymeadow.mat
   // RoR2/Base/intro/matColonyShipStandard.mat
   // RoR2/Base/Common/TrimSheets/matTrimSheetAlien3Wires.mat
   // RoR2/Base/Common/TrimSheets/matTrimSheetAlien1Lichen.mat
-  private static readonly PostProcessProfile shroudProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneArtifactWorld.asset").WaitForCompletion();
-  private static readonly Material shroudTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMTerrainInfiniteTower.mat").WaitForCompletion();
-  private static readonly Material shroudTerrainMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMTerrainInfiniteTower.mat").WaitForCompletion();
-  private static readonly Material shroudDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMSpikeBridgeInfinitetower.mat").WaitForCompletion();
-  private static readonly Material shroudDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matTrimSheetMeadowRuinsProjectedInfiniteTower.mat").WaitForCompletion();
+  private static readonly PostProcessProfile shroudProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneMoon.asset").WaitForCompletion();
+  private static readonly Material shroudTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon/matMoonTerrain.mat").WaitForCompletion();
+  private static readonly Material shroudTerrainMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon/matMoonTerrainDistant.mat").WaitForCompletion();
+  private static readonly Material shroudDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon2/matMoonbatteryBlood.mat").WaitForCompletion();
+  private static readonly Material shroudDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
   private static readonly Material shroudDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/ancientloft/matAncientLoft_TempleDecal2.mat").WaitForCompletion();
-  private static readonly Material shroudSkyMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/artifactworld/matSkyboxArtifactWorld.mat").WaitForCompletion();
+  private static readonly Material shroudSkyMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/sulfurpools/matSkyboxSP.mat").WaitForCompletion();
   private static readonly Material shroudSkyMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/artifactworld/matAWSkySphere.mat").WaitForCompletion();
   private static readonly Material shroudSkyMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/artifactworld/matAWSkySphereSparks.mat").WaitForCompletion();
   private static readonly Material shroudGrassMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/LeavesInfiniteTower_0_LOD0.mat").WaitForCompletion();
@@ -51,15 +51,15 @@ public class Stage1Something
     SetAmbientLight ambientLight = amb.GetComponent<SetAmbientLight>();
     ambientLight.skyboxMaterial = shroudSkyMat;
     //ambientLight.ambientSkyColor = new Color(0.7f, 0.7f, 1, 1); 
-    ambientLight.ambientIntensity = 0.75f;
+    ambientLight.ambientIntensity = 0.5f;
     ambientLight.ApplyLighting();
 
     Light sunLight = pp.transform.GetChild(1).GetComponent<Light>();
-    sunLight.color = new Color(0.9608f, 0.9541f, 0.7843f, 1);
-    sunLight.intensity = 0.5f;
+    sunLight.color = Color.grey;
+    sunLight.intensity = 1f;
 
     Transform skybox = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidstage/Weather, Void Stage.prefab").WaitForCompletion().transform.GetChild(6).GetChild(0), pp.transform);
-    skybox.gameObject.GetComponent<MeshRenderer>().sharedMaterials = new Material[3] { shroudSkyMat, shroudSkyMat2, shroudSkyMat3 };
+    skybox.gameObject.GetComponent<MeshRenderer>().sharedMaterials = new Material[1] { shroudSkyMat };
   }
 
   public static void Roost1()
@@ -75,17 +75,10 @@ public class Stage1Something
       GameObject meshBase = renderer.gameObject;
       if (meshBase != null)
       {
-        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
-        {
-          renderer.sharedMaterial = shroudGrassMat;
-          meshBase.transform.localScale *= 0.5f;
-        }
-        if (meshBase.name.Contains("spmBbConif") && renderer.sharedMaterials.Length > 0)
-        {
-          if (meshBase.name.Contains("Young"))
-            renderer.sharedMaterials = new Material[3] { branch, leaves, branch };
-          else renderer.sharedMaterials = new Material[4] { frond, branch, branch2, leaves };
-        }
+        if (meshBase.name.Contains("Grass"))
+          GameObject.Destroy(meshBase);
+        if (meshBase.name.Contains("spmBbConif"))
+          GameObject.Destroy(meshBase);
         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Pebble") || meshBase.name.Contains("Detail")) && renderer.sharedMaterial)
           renderer.sharedMaterial = shroudDetailMat;
         if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("RuinArch") || meshBase.name.Contains("RuinGate")) && renderer.sharedMaterial)
@@ -113,21 +106,10 @@ public class Stage1Something
       GameObject meshBase = renderer.gameObject;
       if (meshBase != null)
       {
-        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
-        {
-          GameObject cunt = GameObject.Instantiate(shroudGrassArr[UnityEngine.Random.Range(0, 3)], meshBase.transform);
-          cunt.transform.localPosition = Vector3.zero;
-          GameObject.Destroy(meshBase.GetComponent<MeshRenderer>());
-        }
-        if (meshBase.name.Contains("spmBbConif") && renderer.sharedMaterials.Length > 0)
-        {
-          if (meshBase.name.Contains("Young"))
-            renderer.sharedMaterials = new Material[3] { branch, leaves, branch };
-          else if (meshBase.name.Contains("LOD1"))
-            renderer.sharedMaterials = new Material[4] { frond, branch, branch2, leaves };
-          else
-            renderer.sharedMaterials = new Material[3] { branch, branch, leaves };
-        }
+        if (meshBase.name.Contains("Grass"))
+          GameObject.Destroy(meshBase);
+        if (meshBase.name.Contains("spmBbConif"))
+          GameObject.Destroy(meshBase);
         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("DistantBridge")) && renderer.sharedMaterial)
           renderer.sharedMaterial = shroudDetailMat;
         if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("RuinArch") || meshBase.name.Contains("RuinGate")) && renderer.sharedMaterial)
@@ -151,13 +133,8 @@ public class Stage1Something
       GameObject meshBase = renderer.gameObject;
       if (meshBase != null)
       {
-        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
-        {
-          GameObject cunt = GameObject.Instantiate(shroudGrassArr[UnityEngine.Random.Range(0, 3)], meshBase.transform.parent);
-          cunt.transform.localPosition = Vector3.zero;
-          // cunt.transform.localScale *= 0.25f;
+        if (meshBase.name.Contains("Grass"))
           GameObject.Destroy(meshBase);
-        }
         if ((meshBase.name.Contains("Terrain") || meshBase.name == "Wall North") && renderer.sharedMaterial)
           renderer.sharedMaterial = shroudTerrainMat;
         if ((meshBase.name.Contains("Rock") || meshBase.name.Contains("Boulder") || meshBase.name.Contains("mdlGeyser")) && renderer.sharedMaterial)
@@ -182,13 +159,8 @@ public class Stage1Something
       {
         if (meshBase.name == "meshSnowyForestGiantTreesTops")
           meshBase.gameObject.SetActive(false);
-        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
-        {
-          GameObject cunt = GameObject.Instantiate(shroudGrassArr[UnityEngine.Random.Range(0, 3)], meshBase.transform.parent);
-          cunt.transform.localPosition = Vector3.zero;
-          cunt.transform.localScale *= 0.25f;
+        if (meshBase.name.Contains("Grass"))
           GameObject.Destroy(meshBase);
-        }
         if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("SnowPile")) && renderer.sharedMaterial)
           renderer.sharedMaterial = shroudTerrainMat;
         if ((meshBase.name.Contains("Pebble") || meshBase.name.Contains("Rock") || meshBase.name.Contains("mdlSFCeilingSpikes")) && renderer.sharedMaterial)

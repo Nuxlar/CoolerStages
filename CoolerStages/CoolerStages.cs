@@ -12,6 +12,8 @@ namespace CoolerStages
 
   public class CoolerStages : BaseUnityPlugin
   {
+    private static readonly PostProcessProfile ppDay = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplainsFoggy.asset").WaitForCompletion();
+    private static readonly PostProcessProfile ppNight = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneArenaCleared.asset").WaitForCompletion();
 
     public void Awake()
     {
@@ -44,22 +46,26 @@ namespace CoolerStages
           RampFog rampFog = volume.profile.GetSetting<RampFog>();
 
           ColorGrading colorGrading = volume.profile.GetSetting<ColorGrading>() ?? volume.profile.AddSettings<ColorGrading>();
+          // volume.profile = ppNight;
+          float percent = 0.5f;
+          float random = UnityEngine.Random.value;
+
           switch (sceneName)
           {
             case "blackbeach":
-              Stage1DayNight.Night(rampFog, sceneName, colorGrading);
+              Stage1Mech.Roost1();
               break;
             case "blackbeach2":
-              Stage1DayNight.Night(rampFog, sceneName, colorGrading);
+              Stage1Mech.Roost2();
               break;
             case "golemplains":
-              Stage1DayNight.Night(rampFog, sceneName, colorGrading);
+              Stage1Mech.Plains();
               break;
             case "golemplains2":
-              Stage1DayNight.Night(rampFog, sceneName, colorGrading);
+              Stage1Mech.Plains();
               break;
             case "snowyforest":
-              Stage1DayNight.Night(rampFog, sceneName, colorGrading);
+              Stage1Mech.Forest();
               break;
           }
 
@@ -78,6 +84,16 @@ namespace CoolerStages
     }*/
 
       orig(self);
+    }
+
+    private void RollVariant2(Action action1, Action action2)
+    {
+      float percent = 1f / 2f;
+      float random = UnityEngine.Random.value;
+      if (random < percent)
+        action1();
+      else if (random < (percent * 2))
+        action2();
     }
 
     private void RollVariant(Action action1, Action action2, Action action3)
