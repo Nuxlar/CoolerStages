@@ -1,10 +1,10 @@
 ﻿{
-  "name": "CoolerStages",
-  "version_number": "1.0.0",
-  "website_url": "",
-  "description": "Makes stages look cooler",
-  "dependencies": [
-    "bbepis-BepInExPack-5.4.2111",
-    "RiskofThunder-HookGenPatcher-1.2.3"
-  ]
+	"name": "CoolerStages",
+	"version_number": "1.0.0",
+	"website_url": "https://github.com/FocusedFault/CoolerStages/issues",
+	"description": "Adds 3 new stage themes",
+	"dependencies": [
+		"bbepis-BepInExPack-5.4.2111",
+		"RiskofThunder-HookGenPatcher-1.2.3"
+	]
 }

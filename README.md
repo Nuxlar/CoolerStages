@@ -1,13 +1,20 @@
 # Cooler Stages
 
-Adds new stage themes
+### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
-Themes:
+No it doesn't work with StageAesthetic or CoolerEclipse. 3 themes that change the skybox, materials, and post processing for stages 1-5, doesn't work on modded or special stages. There's a config for keeping the vanilla stage, on by default.
 
-- Plains (day)
-- Plains (night)
-- Drown (sandy, coral, underwater)
-- Artifact (maroon, orange)
+### Ruin
+
+![Titanic Plains Ruin](https://i.ibb.co/JdkGvCW/ruin.png)
+
+### Void
+
+![Titanic Plains Void](https://i.ibb.co/CtKLLzM/void.png)
+
+### Scorched
+
+![Titanic Plains Scorched](https://i.ibb.co/XS5yyvg/scorched.png)
 
 ## Credits
 
