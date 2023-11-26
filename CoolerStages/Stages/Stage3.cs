@@ -57,7 +57,7 @@ namespace CoolerStages
                     var meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
-                        if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("Mountain")) && renderer.sharedMaterial)
+                        if (((meshBase.name.Contains("Terrain") && !meshBase.name.Contains("Fog")) || meshBase.name.Contains("Mountain")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("meshSPSphere") || meshBase.name.Contains("SPHeatVent") || meshBase.name.Contains("Crystal") || meshBase.name.Contains("Boulder") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Pebble") || meshBase.name.Contains("Eel")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;

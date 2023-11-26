@@ -22,6 +22,15 @@ No it doesn't work with StageAesthetic or CoolerEclipse. 3 themes that change th
 
 ## Changelog
 
+**1.0.1**
+
+- Removes planets from Scorched skybox
+- Fixes occasional crashes
+- Fixes terrain fog on Pools
+- Aphelian changes to look better
+- Changes void rock material
+- Other slight fixes/tweaks for better looking themes
+
 **1.0.0**
 
 - Release

@@ -15,10 +15,14 @@ namespace CoolerStages
 
         public static void Night(string scenename, PostProcessProfile ppProfile)
         {
-            Light sunLight = GameObject.Find("Directional Light (SUN)").GetComponent<Light>();
-            sunLight.color = new Color32(242, 242, 122, 255);
-            sunLight.intensity = 0.8f;
-            sunLight.shadowStrength = 0.75f;
+            GameObject sun = GameObject.Find("Directional Light (SUN)");
+            if ((bool)sun)
+            {
+                Light sunLight = sun.GetComponent<Light>();
+                sunLight.color = new Color32(242, 242, 122, 255);
+                sunLight.intensity = 1f;
+                sunLight.shadowStrength = 1f;
+            }
             GameObject skybox = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidraid/Weather, Void Raid Starry Night Variant.prefab").WaitForCompletion(), Vector3.zero, Quaternion.identity);
             skybox.transform.GetChild(0).GetComponent<PostProcessVolume>().profile = ppProfile;
             skybox.transform.GetChild(0).GetComponent<PostProcessVolume>().priority = 9999f;
@@ -45,10 +49,15 @@ namespace CoolerStages
 
         public static void Stasis(string scenename, PostProcessProfile ppProfile)
         {
-            Light sunLight = GameObject.Find("Directional Light (SUN)").GetComponent<Light>();
-            sunLight.color = new Color32(242, 122, 122, 255);
-            sunLight.intensity = 1.5f;
-            sunLight.shadowStrength = 0.75f;
+            GameObject sun = GameObject.Find("Directional Light (SUN)");
+            if ((bool)sun)
+            {
+                Light sunLight = sun.GetComponent<Light>();
+                sunLight.color = new Color32(242, 122, 122, 255);
+                sunLight.intensity = 2f;
+                sunLight.shadowStrength = 0.75f;
+            }
+
             GameObject skybox = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidraid/Weather, Void Raid Starry Night Variant.prefab").WaitForCompletion(), Vector3.zero, Quaternion.identity);
             skybox.transform.GetChild(0).GetComponent<PostProcessVolume>().profile = ppProfile;
             skybox.transform.GetChild(0).GetComponent<PostProcessVolume>().priority = 9999f;
@@ -60,17 +69,7 @@ namespace CoolerStages
             skybox.transform.GetChild(1).gameObject.SetActive(false);
             skybox.transform.GetChild(4).GetChild(0).GetChild(2).gameObject.SetActive(false);
             skybox.transform.GetChild(4).GetChild(0).GetComponent<MeshRenderer>().sharedMaterials = new Material[2] { altSkyboxMat, spaceStarsMat2 };
-            skybox.transform.GetChild(4).GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(false);
-            skybox.transform.GetChild(4).GetChild(0).GetChild(1).GetChild(6).gameObject.SetActive(false);
-            skybox.transform.GetChild(4).GetChild(0).GetChild(1).GetChild(11).gameObject.SetActive(false);
-            foreach (Transform child in skybox.transform.GetChild(4).GetChild(0).GetChild(1).transform)
-            {
-                foreach (Transform child2 in child)
-                {
-                    if (child2.gameObject.name.Contains("Opaque") || child2.gameObject.name.Contains("Moon") || child2.gameObject.name == "Rings")
-                        child2.gameObject.SetActive(false);
-                }
-            }
+            skybox.transform.GetChild(4).GetChild(0).GetChild(1).gameObject.SetActive(false);
         }
 
         public static void Void(string scenename, PostProcessProfile ppProfile)

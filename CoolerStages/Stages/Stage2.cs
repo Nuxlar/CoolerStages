@@ -87,7 +87,7 @@ namespace CoolerStages
             }
         }
 
-        public static void Aphelian(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3)
+        public static void Aphelian(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Material templeMat)
         {
             MeshRenderer[] meshList = Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
             SkinnedMeshRenderer[] sMeshList = Object.FindObjectsOfType(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer[];
@@ -107,15 +107,10 @@ namespace CoolerStages
                         }
                         if (meshBase.name.Equals("Terrain") && renderer.sharedMaterials.Length > 0)
                             renderer.sharedMaterials = new Material[] { terrainMat, terrainMat, terrainMat };
-                        if (meshBase.name.Contains("Terrain") && !meshBase.name.Equals("Terrain") && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("Terrain") && !meshBase.name.Equals("Terrain") || meshBase.name.Contains("Dirt") || meshBase.name.Contains("TerrainPlatform")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("Platform") || meshBase.name.Contains("Temple") || meshBase.name.Contains("Bridge")) && renderer.sharedMaterial)
-                        {
-                            Material[] sharedMaterials = renderer.sharedMaterials;
-                            for (int i = 0; i < renderer.sharedMaterials.Length; i++)
-                                sharedMaterials[i] = terrainMat;
-                            renderer.sharedMaterials = sharedMaterials;
-                        }
+                            renderer.sharedMaterials = new Material[] { templeMat, terrainMat };
                         bool biggerProps = meshBase.name.Contains("CirclePot") || meshBase.name.Contains("BrokenPot") || meshBase.name.Contains("Planter") || meshBase.name.Contains("AW_Cube") || meshBase.name.Contains("Mesh, Cube") || meshBase.name.Contains("AncientLoft_WaterFenceType") || meshBase.name.Contains("Pillar") || meshBase.name.Equals("LightStatue") || meshBase.name.Equals("FountainLG") || meshBase.name.Equals("Shrine") || meshBase.name.Equals("Sculpture");
                         if ((biggerProps || meshBase.name.Contains("AncientLoft_SculptureSM") || meshBase.name.Contains("FountainSM")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat3;

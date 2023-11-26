@@ -17,6 +17,9 @@ namespace CoolerStages
     private static readonly PostProcessProfile droughtProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneWispGraveyard.asset").WaitForCompletion();
     private static readonly PostProcessProfile voidProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/DLC1/Common/Void/ppSceneVoidStage.asset").WaitForCompletion();
 
+    private static readonly Material aphelianTempleMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/ancientloft/matAncientLoft_Temple.mat").WaitForCompletion();
+    private static readonly Material aphelianTempleMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon/matMoonRuinsDirtyArena.mat").WaitForCompletion();
+
     private static readonly Material nightTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matWPTerrain.mat").WaitForCompletion();
     private static readonly Material nightTerrainMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matWPTerrainRocky.mat").WaitForCompletion();
     private static readonly Material nightDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/ancientloft/matAncientLoft_CircleArchwayGreen.mat").WaitForCompletion();
@@ -25,13 +28,14 @@ namespace CoolerStages
     private static readonly Material nightDetailMat2Alt = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimsheetGraveyardTempleWhite.mat").WaitForCompletion();
 
     private static readonly Material danTerrain = Addressables.LoadAssetAsync<Material>("RoR2/Base/arena/matArenaTerrainVerySnowy.mat").WaitForCompletion();
-    private static readonly Material danDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidFoam.mat").WaitForCompletion();
+    private static readonly Material danDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidCrystal.mat").WaitForCompletion();
     private static readonly Material danDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimSheetAlien1BossEmission.mat").WaitForCompletion();
     private static readonly Material danDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTrim.mat").WaitForCompletion();
     // 
     private static readonly Material ruinTerrain = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TerrainInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_BoulderInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleProjectedInfiniteTower.mat").WaitForCompletion();
+    // private static readonly Material ruinDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTree.mat").WaitForCompletion();
     public static ConfigEntry<bool> shouldRollVanilla;
     private static ConfigFile CSConfig { get; set; }
@@ -161,11 +165,11 @@ namespace CoolerStages
             case "ancientloft":
               GameObject.Find("Sun").SetActive(false);
               if (rng < chance)
-                Stage2.Aphelian(nightTerrainMat2, nightDetailMat3, nightDetailMat2, nightDetailMat);
+                Stage2.Aphelian(nightTerrainMat2, nightDetailMat3, nightDetailMat2, nightDetailMat, aphelianTempleMat);
               else if (rng > chance && rng < chance2)
-                Stage2.Aphelian(ruinTerrain, ruinDetail3, ruinDetail2, ruinDetail);
+                Stage2.Aphelian(ruinTerrain, ruinDetail3, ruinDetail2, ruinDetail, ruinDetail2);
               else
-                Stage2.Aphelian(danTerrain, danDetail3, danDetail2, danDetail);
+                Stage2.Aphelian(danTerrain, danDetail3, danDetail2, danDetail, aphelianTempleMat2);
               break;
             case "foggyswamp":
               if (rng < chance)
@@ -202,7 +206,7 @@ namespace CoolerStages
               break;
             case "rootjungle":
               if (rng < chance)
-                Stage4.Grove(nightTerrainMat2, nightDetailMat, nightDetailMat2, nightDetailMat3);
+                Stage4.Grove(nightTerrainMat, nightDetailMat, nightDetailMat2, nightDetailMat3);
               else if (rng > chance && rng < chance2)
                 Stage4.Grove(ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3);
               else
@@ -231,7 +235,7 @@ namespace CoolerStages
               break;
             case "skymeadow":
               if (rng < chance)
-                Stage5.SkyMeadow(nightTerrainMat2, nightDetailMat, nightDetailMat3, nightDetailMat2);
+                Stage5.SkyMeadow(nightTerrainMat, nightDetailMat, nightDetailMat3, nightDetailMat2);
               else if (rng > chance && rng < chance2)
                 Stage5.SkyMeadow(ruinTerrain, ruinDetail, ruinDetail3, ruinDetail2);
               else
