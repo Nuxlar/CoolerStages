@@ -22,6 +22,15 @@ No it doesn't work with StageAesthetic or CoolerEclipse. 3 themes that change th
 
 ## Changelog
 
+**1.0.2**
+
+- Fixes _the ring_
+- Fixes incompats (Desolate Reef)
+- Reduces Ruin shadow strength
+- Change rock material for Scorched
+- Changes tree material for Scorched
+- Change rock material for Void
+
 **1.0.1**
 
 - Removes planets from Scorched skybox

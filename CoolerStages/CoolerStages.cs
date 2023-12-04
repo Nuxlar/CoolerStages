@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.0.0")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.0.2")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -22,20 +22,19 @@ namespace CoolerStages
 
     private static readonly Material nightTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matWPTerrain.mat").WaitForCompletion();
     private static readonly Material nightTerrainMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matWPTerrainRocky.mat").WaitForCompletion();
-    private static readonly Material nightDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/ancientloft/matAncientLoft_CircleArchwayGreen.mat").WaitForCompletion();
+    private static readonly Material nightDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matTempleObelisk.mat").WaitForCompletion();
     private static readonly Material nightDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimsheetGraveyardTempleWhiteGrassy.mat").WaitForCompletion();
-    private static readonly Material nightDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matTempleObelisk.mat").WaitForCompletion();
+    private static readonly Material nightDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/foggyswamp/matFSTreeTrunkLightMoss.mat").WaitForCompletion();
     private static readonly Material nightDetailMat2Alt = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimsheetGraveyardTempleWhite.mat").WaitForCompletion();
 
     private static readonly Material danTerrain = Addressables.LoadAssetAsync<Material>("RoR2/Base/arena/matArenaTerrainVerySnowy.mat").WaitForCompletion();
-    private static readonly Material danDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidCrystal.mat").WaitForCompletion();
+    private static readonly Material danDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidFoam.mat").WaitForCompletion();
     private static readonly Material danDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimSheetAlien1BossEmission.mat").WaitForCompletion();
     private static readonly Material danDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTrim.mat").WaitForCompletion();
-    // 
+
     private static readonly Material ruinTerrain = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TerrainInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_BoulderInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleProjectedInfiniteTower.mat").WaitForCompletion();
-    // private static readonly Material ruinDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTree.mat").WaitForCompletion();
     public static ConfigEntry<bool> shouldRollVanilla;
     private static ConfigFile CSConfig { get; set; }
@@ -67,7 +66,7 @@ namespace CoolerStages
     {
       string sceneName = SceneManager.GetActiveScene().name;
       SceneInfo currentScene = SceneInfo.instance;
-      if (currentScene)
+      if (currentScene && whitelistedMaps.Contains(sceneName))
       {
         PostProcessVolume volume = currentScene.GetComponent<PostProcessVolume>();
         if (!volume || !volume.isActiveAndEnabled)
@@ -84,7 +83,7 @@ namespace CoolerStages
           if (alt)
             volume = alt.GetComponent<PostProcessVolume>();
         }
-        if (volume && whitelistedMaps.Contains(sceneName))
+        if (volume)
         {
           float rng = UnityEngine.Random.value;
           float chance = 0.33f;
@@ -98,17 +97,17 @@ namespace CoolerStages
           volume.priority = -1;
           if (rng < chance)
           {
-            Skybox.Stasis(sceneName, droughtProfile);
+            Skybox.Stasis(droughtProfile);
             Destroy(volume);
           }
           else if (rng > chance && rng < chance2)
           {
-            Skybox.Night(sceneName, danProfile);
+            Skybox.Night(danProfile);
             Destroy(volume);
           }
           else
           {
-            Skybox.Void(sceneName, voidProfile);
+            Skybox.Void();
             Destroy(volume);
           }
           switch (sceneName)
