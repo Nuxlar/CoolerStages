@@ -2,6 +2,7 @@ using RoR2;
 using R2API;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace CoolerStages
@@ -13,7 +14,7 @@ namespace CoolerStages
         private static readonly Material altSkyboxMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/artifactworld/matAWSkySphere.mat").WaitForCompletion();
         private static readonly GameObject ruinSkybox = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidraid/Weather, Void Raid Starry Night Variant.prefab").WaitForCompletion(), "RuinSkybox", false);
         private static readonly GameObject scorchedSkybox = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidraid/Weather, Void Raid Starry Night Variant.prefab").WaitForCompletion(), "ScorchedSkybox", false);
-        private static readonly GameObject voidSkybox = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidraid/Weather, Void Raid Starry Night Variant.prefab").WaitForCompletion(), "VoidSkybox", false);
+        private static readonly GameObject voidSkybox = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidstage/Weather, Void Stage.prefab").WaitForCompletion(), "VoidSkybox", false);
 
         public static void Night(PostProcessProfile ppProfile)
         {
@@ -56,7 +57,7 @@ namespace CoolerStages
             if ((bool)sun)
             {
                 Light sunLight = sun.GetComponent<Light>();
-                sunLight.color = new Color32(242, 122, 122, 255);
+                sunLight.color = new Color32(191, 122, 122, 255);
                 sunLight.intensity = 2f;
                 sunLight.shadowStrength = 0.75f;
             }
@@ -66,7 +67,7 @@ namespace CoolerStages
             skybox.transform.GetChild(0).GetComponent<PostProcessVolume>().profile = ppProfile;
             skybox.transform.GetChild(0).GetComponent<PostProcessVolume>().priority = 9999f;
             SetAmbientLight ambLight = skybox.transform.GetChild(0).GetComponent<SetAmbientLight>();
-            ambLight.ambientSkyColor = new Color32(242, 122, 122, 255);
+            ambLight.ambientSkyColor = new Color32(191, 122, 122, 255);
             ambLight.skyboxMaterial = altSkyboxMat;
             ambLight.ApplyLighting();
             skybox.transform.GetChild(1).gameObject.SetActive(false);
@@ -88,6 +89,8 @@ namespace CoolerStages
             skybox.transform.Rotate(new Vector3(180, 0, 0));
             skybox.transform.GetChild(0).GetChild(0).GetComponent<PostProcessVolume>().priority = 9999f;
             SetAmbientLight ambLight = skybox.transform.GetChild(0).GetChild(0).GetComponent<SetAmbientLight>();
+            if (SceneManager.GetActiveScene().name != "frozenwall" && SceneManager.GetActiveScene().name != "snowyforest")
+                ambLight.ambientIntensity = 0.75f;
             ambLight.ApplyLighting();
         }
     }

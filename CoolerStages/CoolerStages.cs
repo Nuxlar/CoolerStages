@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.0.2")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.0.4")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -209,7 +209,7 @@ namespace CoolerStages
               else if (rng > chance && rng < chance2)
                 Stage4.Grove(ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3);
               else
-                Stage4.Grove(danTerrain, danDetail, danDetail2, danDetail3);
+                Stage4.Grove(danTerrain, danDetail2, danDetail, danDetail3);
               break;
             case "shipgraveyard":
               if (rng < chance)

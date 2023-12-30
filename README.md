@@ -22,6 +22,16 @@ No it doesn't work with StageAesthetic or CoolerEclipse. 3 themes that change th
 
 ## Changelog
 
+**1.0.4**
+
+- Makes orange variant less orange
+- Makes void stages less bright
+- Swaps void rock and ruin materials on sundered grove
+
+**1.0.3**
+
+- Fixes "mod not working" bug
+
 **1.0.2**
 
 - Fixes _the ring_
