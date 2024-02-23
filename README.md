@@ -2,9 +2,11 @@
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
-Might work with StageAesthetic or CoolerEclipse idk. Randomzied, 9 material themes and 13 post processing profiles leading to around 117 theme combos per stage for stages 1-6, doesn't work on modded stages.
+Might work with StageAesthetic or CoolerEclipse idk. Randomzied, 9 material themes and 13 post processing profiles leading to around 100 theme combos per stage for stages 1-6, doesn't work on modded stages.
 
 If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'll give a new randomized theme.
+
+Stage materials and post process profile print to the console on stage load. `alt + ctrl + ~` to open the console
 
 ![Plains CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538417016934440/coolerstages1.png?ex=65eaecc1&is=65d877c1&hm=bd147b9fdbaa4f3683f6c4b0035648657180e113d7d250d607a98f78f5d472e9&)
 ![Aphelian CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538418124234782/coolerstages2.png?ex=65eaecc1&is=65d877c1&hm=8ef04aca9a26d20477ba0ea312d0ba4f519e0753e8d169f1323b3d6f3c08c558&)
@@ -18,6 +20,11 @@ If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'
 [StageAesthetic](https://thunderstore.io/package/HIFU/StageAesthetic/) by HIFU
 
 ## Changelog
+
+**1.6.1**
+
+- Enhances dynamic lighting to prevent dark stages (thanks Lawlzee)
+- Removes ambient lighting (no longer needed)
 
 **1.6.0**
 

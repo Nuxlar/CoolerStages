@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.6.0")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.6.1")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -191,38 +191,41 @@ namespace CoolerStages
           if (sun)
           {
             Light mainLight = sun.GetComponent<Light>();
-            mainLight.color = new Color(testFog.fogColorEnd.value.a, testFog.fogColorEnd.value.g, testFog.fogColorEnd.value.b, 1f);
+            Color.RGBToHSV(testFog.fogColorStart, out float fogHue, out float fogSaturation, out float fogValue);
+            Color.RGBToHSV(mainLight.color, out float lightHue, out float lightSaturation, out float lightValue);
+            mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
 
-            if (sceneName != "moon2")
+            if (IsBright(testTerrainMat))
             {
-              if (sun.transform.parent && sun.transform.parent.name.Contains("Weather"))
+              mainLight.shadowStrength = 1f;
+              if (sceneName == "snowyforest")
+                mainLight.intensity = 2f;
+              else if (sceneName == "frozenwall")
               {
-                SetAmbientLight ambientLight = sun.transform.parent.Find("PP + Amb").GetComponent<SetAmbientLight>();
-                if (testFog.fogColorEnd.value.a < 0.3f && testFog.fogColorEnd.value.g < 0.3f && testFog.fogColorEnd.value.b < 0.3f)
-                  ambientLight.ambientSkyColor = new Color(0.75f, 0.75f, 0.75f, 1f);
-                else
-                  ambientLight.ambientSkyColor = Color.gray;
-                ambientLight.setAmbientLightColor = true;
-                ambientLight.ambientIntensity = 1f;
-                ambientLight.ApplyLighting();
+                mainLight.intensity = 1f;
+                mainLight.shadowStrength = 0.5f;
               }
-              else
-              {
-                SetAmbientLight ambientLight = sun.AddComponent<SetAmbientLight>();
-                ambientLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                ambientLight.setSkyboxMaterial = false;
-                ambientLight.setAmbientLightColor = true;
-                if (testFog.fogColorEnd.value.a < 0.3f && testFog.fogColorEnd.value.g < 0.3f && testFog.fogColorEnd.value.b < 0.3f)
-                  ambientLight.ambientSkyColor = new Color(0.75f, 0.75f, 0.75f, 1f);
-                else
-                  ambientLight.ambientSkyColor = Color.gray;
-                ambientLight.ambientIntensity = 1f;
-                ambientLight.ApplyLighting();
-              }
+              else if (sceneName != "skymeadow" && sceneName != "rootjungle" && sceneName != "moon2" && sceneName != "blackbeach2")
+                mainLight.intensity *= 1.25f;
             }
-            if (sceneName != "skyMeadow")
-              mainLight.intensity *= 2f;
-            mainLight.shadowStrength = 0.75f;
+            else
+            {
+              mainLight.shadowStrength = 0.5f;
+              if (sceneName == "snowyforest")
+                mainLight.intensity = 3f;
+              else if (sceneName == "frozenwall")
+                mainLight.intensity = 1.25f;
+              else
+                mainLight.intensity *= 2f;
+            }
+
+            if (sceneName == "goolake" || sceneName == "frozenwall")
+            {
+              Light sunLight2 = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
+              sunLight2.color = mainLight.color;
+              sun.SetActive(false);
+              sun.name = "Fake Sun";
+            }
           }
 
           Debug.LogWarning($"Terrain Material: {testTerrainMat.name}");
@@ -246,34 +249,21 @@ namespace CoolerStages
               Stage1.Plains(testTerrainMat, testDetailMat, testDetailMat2);
               break;
             case "snowyforest":
-              Light forestLight = GameObject.Find("Directional Light (SUN)").GetComponent<Light>();
-              forestLight.intensity = 3f;
-              forestLight.color = testFog.fogColorMid.value;
-              //GameObject.Find("Treecards").SetActive(false);
               Stage1.Forest(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
             case "goolake":
               Stage2.Aqueduct(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
             case "ancientloft":
-              //GameObject.Find("Sun").SetActive(false);
-              Stage2.Aphelian(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3, testDetailMat2);
+              Stage2.Aphelian(testTerrainMat, testDetailMat2, testDetailMat3, testDetailMat, testDetailMat2);
               break;
             case "foggyswamp":
               Stage2.Wetland(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt);
               break;
             case "frozenwall":
-              GameObject fakeSun = GameObject.Find("Directional Light (SUN)");
-              Light sunLight = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
-              sunLight.color = new Color(testFog.fogColorStart.value.a, testFog.fogColorStart.value.g, testFog.fogColorStart.value.b, 1f);
-              sunLight.intensity = 1.25f;
-              sunLight.shadowStrength = 0.75f;
-              fakeSun.SetActive(false);
-              fakeSun.name = "Fake Sun";
               Stage3.RPD(testTerrainMat, testDetailMat, testDetailMat2);
               break;
             case "wispgraveyard":
-              // GameObject.Find("SunHolder").SetActive(false);
               Stage3.Acres(testTerrainMat, testDetailMat, testDetailMat2);
               break;
             case "sulfurpools":
@@ -288,11 +278,6 @@ namespace CoolerStages
               break;
             case "dampcavesimple":
               Stage4.Abyssal(testTerrainMatAlt, testDetailMatAlt, testDetailMat3Alt, testDetailMat2Alt);
-              /*
-              GameObject.Find("CEILING").SetActive(false);
-              Destroy(GameObject.Find("DCGiantChainVariationWithCrystal (1)").GetComponent<MeshRenderer>());
-              Destroy(GameObject.Find("DCGiantChainVariationWithCrystal").GetComponent<MeshRenderer>());
-              */
               if (GameObject.Find("DCPPInTunnels"))
                 GameObject.Find("DCPPInTunnels").SetActive(false);
               break;
@@ -323,6 +308,20 @@ namespace CoolerStages
         }
       }
       orig(self);
+    }
+
+    private bool IsBright(Material material)
+    {
+      Color materialColor = material.color;
+      float luminance = 0.2126f * materialColor.r + 0.7152f * materialColor.g + 0.0722f * materialColor.b;
+      if (luminance < 0.7f)
+      {
+        return false;
+      }
+      else
+      {
+        return true;
+      }
     }
   }
 }
