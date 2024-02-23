@@ -1,8 +1,8 @@
 ﻿{
 	"name": "CoolerStages",
-	"version_number": "1.0.4",
+	"version_number": "1.5.0",
 	"website_url": "https://github.com/FocusedFault/CoolerStages/issues",
-	"description": "Adds 3 new stage themes",
+	"description": "Randomize Update. Adds over 1k theme variants.",
 	"dependencies": [
 		"RiskofThunder-R2API_Prefab-1.0.3"
 	]

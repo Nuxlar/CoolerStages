@@ -23,9 +23,9 @@ namespace CoolerStages
             if ((bool)sun)
             {
                 Light sunLight = sun.GetComponent<Light>();
-                sunLight.color = new Color32(242, 242, 122, 255);
-                sunLight.intensity = 1f;
-                sunLight.shadowStrength = 0.8f;
+                //sunLight.color = new Color32(242, 242, 122, 255);
+                sunLight.intensity = 2f;
+                sunLight.shadowStrength = 0.7f;
             }
             if ((bool)probe)
                 probe.SetActive(false);
@@ -49,7 +49,7 @@ namespace CoolerStages
                 }
             }
         }
-
+        /*
         public static void Stasis(PostProcessProfile ppProfile)
         {
             GameObject sun = GameObject.Find("Directional Light (SUN)");
@@ -76,6 +76,7 @@ namespace CoolerStages
             skybox.transform.GetChild(4).GetChild(0).GetChild(1).gameObject.SetActive(false);
 
         }
+        */
 
         public static void Void()
         {
