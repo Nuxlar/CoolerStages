@@ -1,9 +1,10 @@
 ﻿{
 	"name": "CoolerStages",
-	"version_number": "1.5.0",
+	"version_number": "1.6.0",
 	"website_url": "https://github.com/FocusedFault/CoolerStages/issues",
-	"description": "Randomize Update. Adds over 1k theme variants.",
+	"description": "Randomized Update. Adds over 1k theme variants.",
 	"dependencies": [
-		"RiskofThunder-R2API_Prefab-1.0.3"
+		"bbepis-BepInExPack-5.4.2111",
+		"RiskofThunder-HookGenPatcher-1.2.3"
 	]
 }

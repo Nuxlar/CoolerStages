@@ -7,11 +7,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.PostProcessing;
 using System.Linq;
 using System.Collections.Generic;
-using System;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.0.4")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.6.0")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -95,14 +94,12 @@ namespace CoolerStages
       danProfile,
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneArenaCleared.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneArtifactWorld.asset").WaitForCompletion(),
-      //Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneBazaar.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneBlackbeach_Eclipse.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneFoggyswamp.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplainsFoggy.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplains.asset").WaitForCompletion(),
-      //Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGoolake.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneMoon.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneWispGraveyardSoot.asset").WaitForCompletion(),
+      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneWispGraveyard.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneRootJungleRain.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneSkyMeadow.asset").WaitForCompletion(),
     };
@@ -189,6 +186,45 @@ namespace CoolerStages
           if (sceneName != "moon2")
             volume.profile = testProfile;
 
+          RampFog testFog = testProfile.GetSetting<RampFog>();
+          GameObject sun = GameObject.Find("Directional Light (SUN)");
+          if (sun)
+          {
+            Light mainLight = sun.GetComponent<Light>();
+            mainLight.color = new Color(testFog.fogColorEnd.value.a, testFog.fogColorEnd.value.g, testFog.fogColorEnd.value.b, 1f);
+
+            if (sceneName != "moon2")
+            {
+              if (sun.transform.parent && sun.transform.parent.name.Contains("Weather"))
+              {
+                SetAmbientLight ambientLight = sun.transform.parent.Find("PP + Amb").GetComponent<SetAmbientLight>();
+                if (testFog.fogColorEnd.value.a < 0.3f && testFog.fogColorEnd.value.g < 0.3f && testFog.fogColorEnd.value.b < 0.3f)
+                  ambientLight.ambientSkyColor = new Color(0.75f, 0.75f, 0.75f, 1f);
+                else
+                  ambientLight.ambientSkyColor = Color.gray;
+                ambientLight.setAmbientLightColor = true;
+                ambientLight.ambientIntensity = 1f;
+                ambientLight.ApplyLighting();
+              }
+              else
+              {
+                SetAmbientLight ambientLight = sun.AddComponent<SetAmbientLight>();
+                ambientLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                ambientLight.setSkyboxMaterial = false;
+                ambientLight.setAmbientLightColor = true;
+                if (testFog.fogColorEnd.value.a < 0.3f && testFog.fogColorEnd.value.g < 0.3f && testFog.fogColorEnd.value.b < 0.3f)
+                  ambientLight.ambientSkyColor = new Color(0.75f, 0.75f, 0.75f, 1f);
+                else
+                  ambientLight.ambientSkyColor = Color.gray;
+                ambientLight.ambientIntensity = 1f;
+                ambientLight.ApplyLighting();
+              }
+            }
+            if (sceneName != "skyMeadow")
+              mainLight.intensity *= 2f;
+            mainLight.shadowStrength = 0.75f;
+          }
+
           Debug.LogWarning($"Terrain Material: {testTerrainMat.name}");
           Debug.LogWarning($"Detail (Rocks) Material: {testDetailMat.name}");
           Debug.LogWarning($"Detail2 (Ruins) Material: {testDetailMat2.name}");
@@ -210,7 +246,9 @@ namespace CoolerStages
               Stage1.Plains(testTerrainMat, testDetailMat, testDetailMat2);
               break;
             case "snowyforest":
-              GameObject.Find("Directional Light (SUN)").GetComponent<Light>().intensity = 3f;
+              Light forestLight = GameObject.Find("Directional Light (SUN)").GetComponent<Light>();
+              forestLight.intensity = 3f;
+              forestLight.color = testFog.fogColorMid.value;
               //GameObject.Find("Treecards").SetActive(false);
               Stage1.Forest(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
@@ -225,12 +263,13 @@ namespace CoolerStages
               Stage2.Wetland(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt);
               break;
             case "frozenwall":
-              GameObject sun = GameObject.Find("Directional Light (SUN)");
+              GameObject fakeSun = GameObject.Find("Directional Light (SUN)");
               Light sunLight = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
-              sunLight.intensity = 1.5f;
+              sunLight.color = new Color(testFog.fogColorStart.value.a, testFog.fogColorStart.value.g, testFog.fogColorStart.value.b, 1f);
+              sunLight.intensity = 1.25f;
               sunLight.shadowStrength = 0.75f;
-              sun.SetActive(false);
-              sun.name = "I love Hopoo Games";
+              fakeSun.SetActive(false);
+              fakeSun.name = "Fake Sun";
               Stage3.RPD(testTerrainMat, testDetailMat, testDetailMat2);
               break;
             case "wispgraveyard":
@@ -261,7 +300,6 @@ namespace CoolerStages
               Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2);
               break;
             case "moon2":
-              RampFog testFog = testProfile.GetSetting<RampFog>();
               RampFog fog = volume.profile.GetSetting<RampFog>();
               fog.fogIntensity.value = testFog.fogIntensity.value;
               fog.fogPower.value = testFog.fogPower.value;
@@ -277,8 +315,8 @@ namespace CoolerStages
               HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
               // 0.1138 0.1086 0.15 1
               // 0.1012 0.1091 0.1226 1
-              bruh2.overrideAmbientColor = new Color(0.2138f, 0.2086f, 0.25f, 1);
-              bruh2.overrideDirectionalColor = new Color(0.2012f, 0.2091f, 0.2226f, 1);
+              bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
+              bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
               Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
           }

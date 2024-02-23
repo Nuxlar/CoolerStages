@@ -19,6 +19,12 @@ If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'
 
 ## Changelog
 
+**1.6.0**
+
+- Adds dynamic lighting that matches the post process profile
+- Adds ambient lighting to _try_ and prevent darker stages
+- Removes unused R2API dependency and skybox code
+
 **1.5.0**
 
 - Adds "randomized" themes
