@@ -68,6 +68,16 @@ namespace CoolerStages
     private static readonly Material voidDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidMetalTrimGrassyVertexColorsOnly.mat").WaitForCompletion();
     private static readonly Material voidDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidCoral.mat").WaitForCompletion();
 
+    private static readonly Material bazaarTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarTerrainTriplanar.mat").WaitForCompletion();
+    private static readonly Material bazaarDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarWoodSandy.mat").WaitForCompletion();
+    private static readonly Material bazaarDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
+    private static readonly Material bazaarDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/mysteryspace/matMSObeliskHeart.mat").WaitForCompletion();
+
+    private static readonly Material testTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarTerrainTriplanar.mat").WaitForCompletion();
+    private static readonly Material testDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarWoodSandy.mat").WaitForCompletion();
+    private static readonly Material testDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
+    private static readonly Material testDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/mysteryspace/matMSObeliskHeart.mat").WaitForCompletion();
+    //RoR2/Base/Common/TrimSheets/matTrimSheetAncient.mat
     private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
       new Material[] { nightTerrainMat2, nightDetailMat, nightDetailMat2, nightDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
@@ -77,7 +87,8 @@ namespace CoolerStages
       new Material[] { gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 },
       new Material[] { gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 },
       new Material[] { moonTerrainMat, moonDetailMat, moonDetailMat2, moonDetailMat3 },
-      new Material[] { voidTerrainMat, voidDetailMat, voidDetailMat2, voidDetailMat3 }
+      new Material[] { voidTerrainMat, voidDetailMat, voidDetailMat2, voidDetailMat3 },
+      new Material[] { bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 }
     };
 
     private static readonly List<Material[]> themeMaterials2 = new List<Material[]> {
@@ -170,6 +181,7 @@ namespace CoolerStages
           int idx2 = rng.Next(themeMaterials2.Count);
           Material[] themeMaterialsAlt = themeMaterials2[idx2];
 
+          /*
           Material testTerrainMat = themeMaterials[0];
           Material testDetailMat = themeMaterials[1];
           Material testDetailMat2 = themeMaterials[2];
@@ -179,6 +191,7 @@ namespace CoolerStages
           Material testDetailMatAlt = themeMaterialsAlt[1];
           Material testDetailMat2Alt = themeMaterialsAlt[2];
           Material testDetailMat3Alt = themeMaterialsAlt[3];
+          */
 
           int idx3 = rng.Next(themeProfiles.Count);
           PostProcessProfile testProfile = themeProfiles[idx3];
@@ -258,7 +271,7 @@ namespace CoolerStages
               Stage2.Aphelian(testTerrainMat, testDetailMat2, testDetailMat3, testDetailMat, testDetailMat2);
               break;
             case "foggyswamp":
-              Stage2.Wetland(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt);
+              Stage2.Wetland(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
             case "frozenwall":
               Stage3.RPD(testTerrainMat, testDetailMat, testDetailMat2);
@@ -274,10 +287,10 @@ namespace CoolerStages
               Stage4.Grove(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
             case "shipgraveyard":
-              Stage4.Sirens(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
+              Stage4.Sirens(testTerrainMat, testDetailMat, testDetailMat2);
               break;
             case "dampcavesimple":
-              Stage4.Abyssal(testTerrainMatAlt, testDetailMatAlt, testDetailMat3Alt, testDetailMat2Alt);
+              Stage4.Abyssal(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2);
               if (GameObject.Find("DCPPInTunnels"))
                 GameObject.Find("DCPPInTunnels").SetActive(false);
               break;
