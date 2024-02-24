@@ -17,10 +17,10 @@ namespace CoolerStages
                     {
                         if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("Rock Holder") || meshBase.name.Contains("Vine Tree") || meshBase.name.Contains("Gianticus") || meshBase.name.Contains("Tree Big Bottom") || meshBase.name.Contains("Root Bridge") || meshBase.name.Contains("Tree D") || meshBase.name.Contains("Wall") || meshBase.name.Contains("RJRoot") || meshBase.name.Contains("RJShroomShelf")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
-                        if ((meshBase.name.Contains("RJTriangle") || meshBase.name.Contains("BbRuinArch") || meshBase.name.Contains("RJShroomBig")) && renderer.sharedMaterial)
-                            renderer.sharedMaterial = detailMat;
-                        if (((meshBase.name.Contains("Rock") && !meshBase.name.Contains("Holder")) || meshBase.name.Contains("Boulder") || meshBase.name.Contains("Pebble")) && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("RJTriangle") || meshBase.name.Contains("BbRuinArch")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat2;
+                        if (((meshBase.name.Contains("Rock") && !meshBase.name.Contains("Holder")) || meshBase.name.Contains("Boulder") || meshBase.name.Contains("Pebble")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat;
                         if ((meshBase.name.Contains("Moss Cover") || meshBase.name.Contains("RJShroomShelf") || meshBase.name.Contains("RJShroomBig") || meshBase.name.Contains("RJShroomSmall") || meshBase.name.Contains("RJMossPatch")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat3;
                     }
