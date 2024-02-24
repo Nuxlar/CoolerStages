@@ -191,7 +191,7 @@ namespace CoolerStages
           if (sun)
           {
             Light mainLight = sun.GetComponent<Light>();
-            Color.RGBToHSV(testFog.fogColorStart, out float fogHue, out float fogSaturation, out float fogValue);
+            Color.RGBToHSV(testFog.fogColorEnd, out float fogHue, out float fogSaturation, out float fogValue);
             Color.RGBToHSV(mainLight.color, out float lightHue, out float lightSaturation, out float lightValue);
             mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
 
@@ -200,13 +200,13 @@ namespace CoolerStages
               mainLight.shadowStrength = 1f;
               if (sceneName == "snowyforest")
                 mainLight.intensity = 2f;
-              else if (sceneName == "frozenwall")
+              else if (sceneName == "frozenwall" || testTerrainMat.name.Contains("VoidTerrain"))
               {
                 mainLight.intensity = 1f;
                 mainLight.shadowStrength = 0.5f;
               }
-              else if (sceneName != "skymeadow" && sceneName != "rootjungle" && sceneName != "moon2" && sceneName != "blackbeach2")
-                mainLight.intensity *= 1.25f;
+              else
+                mainLight.intensity = 0.5f;
             }
             else
             {
@@ -216,7 +216,7 @@ namespace CoolerStages
               else if (sceneName == "frozenwall")
                 mainLight.intensity = 1.25f;
               else
-                mainLight.intensity *= 2f;
+                mainLight.intensity = 1f;
             }
 
             if (sceneName == "goolake" || sceneName == "frozenwall")
