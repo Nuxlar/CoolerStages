@@ -199,13 +199,17 @@ namespace CoolerStages
             if (sceneName == "wispgraveyard" || sceneName == "ancientloft")
             {
               mainLight.color = new Color(testFog.fogColorEnd.value.a, testFog.fogColorEnd.value.g, testFog.fogColorEnd.value.b, 1f);
+              mainLight.color = BrightenColor(mainLight.color, 0.2f);
               SetAmbientLight ambLight = volume.GetComponent<SetAmbientLight>();
               ambLight.ambientIntensity = 1f;
               ambLight.ambientSkyColor = Color.gray;
               ambLight.ApplyLighting();
             }
             else
+            {
               mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
+              mainLight.color = BrightenColor(mainLight.color, 0.2f);
+            }
 
             if (IsBright(testTerrainMat))
             {
@@ -320,6 +324,26 @@ namespace CoolerStages
         }
       }
       orig(self);
+    }
+
+    public float CalculateLuminance(Color color)
+    {
+      return 0.2126f * color.r + 0.7152f * color.g + 0.0722f * color.b;
+    }
+
+    public Color BrightenColor(Color color, float brightenAmount)
+    {
+      float luminance = CalculateLuminance(color);
+      Debug.LogWarning($"Luminance: {luminance}");
+      if (luminance < 0.3f)
+      {
+        Debug.LogWarning("Too dark, brightening color");
+        color.r = Mathf.Clamp01(color.r + brightenAmount);
+        color.g = Mathf.Clamp01(color.g + brightenAmount);
+        color.b = Mathf.Clamp01(color.b + brightenAmount);
+      }
+
+      return color;
     }
 
     private bool IsBright(Material material)
