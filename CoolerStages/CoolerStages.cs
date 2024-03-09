@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.6.2")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.6.3")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -37,7 +37,7 @@ namespace CoolerStages
     private static readonly Material smSimTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMTerrainInfiniteTower.mat").WaitForCompletion();
     private static readonly Material smSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMRockInfiniteTower.mat").WaitForCompletion();
     private static readonly Material smSimDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matTrimSheetMeadowRuinsProjectedInfiniteTower.mat").WaitForCompletion();
-    private static readonly Material smSimtDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMVineInfiniteTower.mat").WaitForCompletion();
+    private static readonly Material smSimtDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMSpikeBridgeInfinitetower.mat").WaitForCompletion();
 
     private static readonly Material dcSimTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCTerrainFloorInfiniteTower.mat").WaitForCompletion();
     private static readonly Material dcSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCBoulderInfiniteTower.mat").WaitForCompletion();
@@ -70,7 +70,7 @@ namespace CoolerStages
     private static readonly Material bazaarDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/mysteryspace/matMSObeliskHeart.mat").WaitForCompletion();
 
     private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
-      new Material[] { nightTerrainMat2, nightDetailMat, nightDetailMat2, nightDetailMat3 },
+      new Material[] { nightTerrainMat, nightDetailMat, nightDetailMat2, nightDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
       new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
       new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3 },
@@ -190,6 +190,7 @@ namespace CoolerStages
 
           RampFog testFog = testProfile.GetSetting<RampFog>();
           GameObject sun = GameObject.Find("Directional Light (SUN)");
+          Color lightColor = Color.gray;
           if (sun)
           {
             Light mainLight = sun.GetComponent<Light>();
@@ -204,32 +205,62 @@ namespace CoolerStages
               ambLight.ambientIntensity = 1f;
               ambLight.ambientSkyColor = Color.gray;
               ambLight.ApplyLighting();
+              lightColor = mainLight.color;
             }
             else
             {
               mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
               mainLight.color = BrightenColor(mainLight.color, 0.2f);
+              lightColor = mainLight.color;
             }
 
             if (IsBright(testTerrainMat))
             {
               if (sceneName == "snowyforest")
-                mainLight.intensity = 2.5f;
-              else if (sceneName == "frozenwall" || testTerrainMat.name.Contains("VoidTerrain"))
               {
-                mainLight.intensity = 1f;
+                mainLight.intensity = 2.5f;
                 mainLight.shadowStrength = 0.5f;
               }
+              else if (sceneName == "frozenwall")
+              {
+                mainLight.intensity = 1.5f;
+                mainLight.shadowStrength = 0.5f;
+              }
+              else if (testTerrainMat.name.Contains("VoidTerrain"))
+              {
+                mainLight.intensity = 1f;
+                mainLight.shadowStrength = 0.75f;
+              }
+              else if (sceneName == "dampcavesimple")
+              {
+                mainLight.intensity = 1.5f;
+                mainLight.shadowStrength = 0.75f;
+              }
+              else if (sceneName == "moon2")
+                mainLight.intensity = 0.75f;
               else
                 mainLight.intensity = 0.5f;
             }
             else
             {
               if (sceneName == "snowyforest")
+              {
                 mainLight.intensity = 3.5f;
+                mainLight.shadowStrength = 0.5f;
+              }
+              else if (sceneName == "dampcavesimple" && testTerrainMatAlt.name.Contains("Snowy"))
+              {
+                mainLight.intensity = 1f;
+                mainLight.shadowStrength = 0.75f;
+              }
               else if (sceneName == "dampcavesimple")
-                mainLight.intensity = 2f;
+              {
+                mainLight.intensity = 2.5f;
+                mainLight.shadowStrength = 0.75f;
+              }
               else if (sceneName == "frozenwall" || sceneName == "foggyswamp")
+                mainLight.intensity = 1.25f;
+              else if (sceneName == "moon2")
                 mainLight.intensity = 1.25f;
               else
                 mainLight.intensity = 1f;
@@ -244,11 +275,22 @@ namespace CoolerStages
             }
           }
 
-          Debug.LogWarning($"Terrain Material: {testTerrainMat.name}");
-          Debug.LogWarning($"Detail (Rocks) Material: {testDetailMat.name}");
-          Debug.LogWarning($"Detail2 (Ruins) Material: {testDetailMat2.name}");
-          Debug.LogWarning($"Detail3 (Trees) Material: {testDetailMat3.name}");
-          Debug.LogWarning($"Post Process Profile: {testProfile.name}");
+          if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
+          {
+            Debug.LogWarning($"Terrain Alt Material: {testTerrainMatAlt.name}");
+            Debug.LogWarning($"Detail Alt (Rocks) Material: {testDetailMatAlt.name}");
+            Debug.LogWarning($"Detail2 Alt (Ruins) Material: {testDetailMat2Alt.name}");
+            Debug.LogWarning($"Detail3 Alt (Trees) Material: {testDetailMat3Alt.name}");
+            Debug.LogWarning($"Post Process Profile : {testProfile.name}");
+          }
+          else
+          {
+            Debug.LogWarning($"Terrain Material: {testTerrainMat.name}");
+            Debug.LogWarning($"Detail (Rocks) Material: {testDetailMat.name}");
+            Debug.LogWarning($"Detail2 (Ruins) Material: {testDetailMat2.name}");
+            Debug.LogWarning($"Detail3 (Trees) Material: {testDetailMat3.name}");
+            Debug.LogWarning($"Post Process Profile: {testProfile.name}");
+          }
 
           switch (sceneName)
           {
@@ -293,7 +335,11 @@ namespace CoolerStages
               Stage4.Sirens(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
               break;
             case "dampcavesimple":
-              Stage4.Abyssal(testTerrainMatAlt, testDetailMatAlt, testDetailMat3Alt, testDetailMat2Alt);
+              if (testTerrainMatAlt.name.Contains("Snowy"))
+                Stage4.Abyssal(testTerrainMatAlt, testDetailMat3Alt, testDetailMatAlt, testDetailMat2Alt);
+              else
+                Stage4.Abyssal(testTerrainMatAlt, testDetailMatAlt, testDetailMat3Alt, testDetailMat2Alt);
+              AbyssalLighting(lightColor);
               if (GameObject.Find("DCPPInTunnels"))
                 GameObject.Find("DCPPInTunnels").SetActive(false);
               break;
@@ -301,6 +347,11 @@ namespace CoolerStages
               Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2);
               break;
             case "moon2":
+              Transform es = GameObject.Find("EscapeSequenceController").transform.GetChild(0);
+              es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
+              es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
+              es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
+
               RampFog fog = volume.profile.GetSetting<RampFog>();
               fog.fogIntensity.value = testFog.fogIntensity.value;
               fog.fogPower.value = testFog.fogPower.value;
@@ -318,12 +369,45 @@ namespace CoolerStages
               // 0.1012 0.1091 0.1226 1
               bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
               bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
-              Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+              if (testTerrainMat.name.Contains("Snowy"))
+                Stage6.Moon(testTerrainMat, testDetailMat3, testDetailMat2, testDetailMat);
+              else
+                Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
               break;
           }
         }
       }
       orig(self);
+    }
+
+    public static void AbyssalLighting(Color color)
+    {
+      Light[] lightList = Object.FindObjectsOfType(typeof(Light)) as Light[];
+      foreach (Light light in lightList)
+      {
+        GameObject lightBase = light.gameObject;
+        if (lightBase != null)
+        {
+          Transform lightParent = lightBase.transform.parent;
+          if (lightParent != null)
+          {
+            if (light.gameObject.transform.parent.gameObject.name.Equals("DCCoralPropMediumActive"))
+            {
+              light.color = color;
+              var lightLP = light.transform.localPosition;
+              lightLP.z = 4;
+            }
+            else if (light.gameObject.transform.parent.gameObject.name.Contains("DCCrystalCluster Variant"))
+            {
+              light.color = color;
+              light.intensity *= 1.5f;
+            }
+            else if (light.gameObject.transform.parent.gameObject.name.Contains("DCCrystalLarge"))
+              light.color = color;
+          }
+          if (light.gameObject.name.Equals("CrystalLight")) light.color = color;
+        }
+      }
     }
 
     public float CalculateLuminance(Color color)
@@ -334,10 +418,9 @@ namespace CoolerStages
     public Color BrightenColor(Color color, float brightenAmount)
     {
       float luminance = CalculateLuminance(color);
-      Debug.LogWarning($"Luminance: {luminance}");
       if (luminance < 0.3f)
       {
-        Debug.LogWarning("Too dark, brightening color");
+        Debug.LogWarning("Too dark, brightening light color");
         color.r = Mathf.Clamp01(color.r + brightenAmount);
         color.g = Mathf.Clamp01(color.g + brightenAmount);
         color.b = Mathf.Clamp01(color.b + brightenAmount);

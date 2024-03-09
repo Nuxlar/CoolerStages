@@ -21,6 +21,18 @@ Stage materials and post process profile print to the console on stage load. `al
 
 ## Changelog
 
+**1.6.3**
+
+- Changes "Scorched" terrain material to one that's less monotone
+- Changes Abyssal material matching
+- Fixes "Void Meadow" tree material
+- Fixes Abyssal being dark a lot of the time
+- Fixes moon material matching not applying to everything (soul pillar ramp)
+- Adds check that brightens darker light colors
+- Adds Abyssal Lighting, cave crystals and prop lights now match the dynamic sun color
+- Brightens moon slightly
+- Removes moon escape sequence post processing
+
 **1.6.2**
 
 - Adds new material theme "Bazaar"

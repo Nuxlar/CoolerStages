@@ -75,22 +75,18 @@ namespace CoolerStages
                             if (meshBase.name.Contains("RuinBowl") && meshParent.name.Contains("RuinMarker") && renderer.sharedMaterial)
                                 renderer.sharedMaterial = detailMat3;
                         }
-                        if ((meshBase.name.Contains("Hero") || meshBase.name.Contains("Ceiling")) && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("Hero") || meshBase.name.Contains("Ceiling") || meshBase.name.Contains("Column")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
-                        if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Coral") || meshBase.name.Contains("Heatvent") || meshBase.name.Contains("Pebble") || (meshBase.name.Contains("GiantRock") && !meshBase.name.Contains("Slab")) || meshBase.name.Contains("Stalagmite")) && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Pebble") || (meshBase.name.Contains("GiantRock") && !meshBase.name.Contains("Slab"))) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
                         if (meshBase.name.Contains("Ruin") && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat3;
-                        if (meshBase.name.Contains("Column") && renderer.sharedMaterial)
-                            renderer.sharedMaterial = detailMat2;
-                        if (meshBase.name.Contains("Crystal") && renderer.sharedMaterial)
-                            renderer.sharedMaterial = detailMat;
                         if (meshBase.name.Contains("LightMesh") && renderer.sharedMaterial)
                         {
                             if (meshBase.transform.childCount >= 1 && meshBase.transform.GetChild(0).name.Contains("Crystal"))
-                                meshBase.transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = detailMat;
+                                meshBase.transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = detailMat2;
                         }
-                        if (meshBase.name.Contains("Spike") && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("Spike") || meshBase.name.Contains("Stalagmite") || meshBase.name.Contains("Coral") || meshBase.name.Contains("Crystal") || meshBase.name.Contains("Heatvent")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat2;
                         if ((meshBase.name.Contains("DCGiantRockSlab") || meshBase.name.Contains("GiantStoneSlab") || meshBase.name.Contains("TerrainBackwall") || meshBase.name.Contains("Chain") || meshBase.name.Contains("Wall")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
