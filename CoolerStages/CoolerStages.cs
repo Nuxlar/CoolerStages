@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.6.3")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.7.0")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -200,7 +200,7 @@ namespace CoolerStages
             if (sceneName == "wispgraveyard" || sceneName == "ancientloft")
             {
               mainLight.color = new Color(testFog.fogColorEnd.value.a, testFog.fogColorEnd.value.g, testFog.fogColorEnd.value.b, 1f);
-              mainLight.color = BrightenColor(mainLight.color, 0.2f);
+              mainLight.color = BrightenColor(mainLight.color, 0.1f);
               SetAmbientLight ambLight = volume.GetComponent<SetAmbientLight>();
               ambLight.ambientIntensity = 1f;
               ambLight.ambientSkyColor = Color.gray;
@@ -210,9 +210,14 @@ namespace CoolerStages
             else
             {
               mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
-              mainLight.color = BrightenColor(mainLight.color, 0.2f);
+              mainLight.color = BrightenColor(mainLight.color, 0.1f);
               SetAmbientLight ambLight = mainLight.gameObject.AddComponent<SetAmbientLight>();
-              ambLight.ambientIntensity = 0.5f;
+              ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+              ambLight.setAmbientLightColor = true;
+              if (sceneName == "dampcavesimple")
+                ambLight.ambientIntensity = 0.75f;
+              else
+                ambLight.ambientIntensity = 0.5f;
               ambLight.ambientSkyColor = mainLight.color;
               ambLight.ApplyLighting();
               lightColor = mainLight.color;
@@ -220,34 +225,17 @@ namespace CoolerStages
 
             if (IsBright(testTerrainMat))
             {
-              if (sceneName == "snowyforest")
-                mainLight.intensity = 2.5f;
-              else if (sceneName == "frozenwall")
-                mainLight.intensity = 1.5f;
+              if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach"))
+                mainLight.intensity = 1f;
               else if (testTerrainMat.name.Contains("VoidTerrain"))
                 mainLight.intensity = 1f;
-              else if (sceneName == "dampcavesimple")
-                mainLight.intensity = 1.5f;
-              else if (sceneName == "moon2")
-                mainLight.intensity = 0.75f;
               else
                 mainLight.intensity = 0.5f;
             }
             else
             {
-              if (sceneName == "snowyforest")
-                mainLight.intensity = 3.5f;
-              else if (sceneName == "dampcavesimple" && testTerrainMatAlt.name.Contains("Snowy"))
-                mainLight.intensity = 1f;
-              else if (sceneName == "dampcavesimple")
-              {
-                mainLight.intensity = 2.5f;
-                mainLight.shadowStrength = 0.75f;
-              }
-              else if (sceneName == "frozenwall" || sceneName == "foggyswamp")
-                mainLight.intensity = 1.25f;
-              else if (sceneName == "moon2")
-                mainLight.intensity = 1.25f;
+              if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach"))
+                mainLight.intensity = 2f;
               else
                 mainLight.intensity = 1f;
             }
@@ -256,6 +244,7 @@ namespace CoolerStages
             {
               Light sunLight2 = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
               sunLight2.color = mainLight.color;
+              sunLight2.intensity = mainLight.intensity;
               sun.SetActive(false);
               sun.name = "Fake Sun";
             }
@@ -404,7 +393,8 @@ namespace CoolerStages
     public Color BrightenColor(Color color, float brightenAmount)
     {
       float luminance = CalculateLuminance(color);
-      if (luminance < 0.3f)
+      Debug.LogWarning($"Luminance: {luminance}");
+      if (luminance < 0.7f)
       {
         Debug.LogWarning("Too dark, brightening light color");
         color.r = Mathf.Clamp01(color.r + brightenAmount);

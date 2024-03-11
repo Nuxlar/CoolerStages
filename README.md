@@ -8,18 +8,25 @@ If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'
 
 Stage materials and post process profile print to the console on stage load. `alt + ctrl + ~` to open the console
 
-![Plains CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538417016934440/coolerstages1.png?ex=65eaecc1&is=65d877c1&hm=bd147b9fdbaa4f3683f6c4b0035648657180e113d7d250d607a98f78f5d472e9&)
-![Aphelian CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538418124234782/coolerstages2.png?ex=65eaecc1&is=65d877c1&hm=8ef04aca9a26d20477ba0ea312d0ba4f519e0753e8d169f1323b3d6f3c08c558&)
-![Acres CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538419143577690/coolerstages3.png?ex=65eaecc1&is=65d877c1&hm=31e365e01d07b72eb52b3c93b77da7ff3c3d3c05b06631ec8643bcd00b32f8f8&)
-![Abyssal CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538421404045373/image.png?ex=65eaecc2&is=65d877c2&hm=2d151442050b182ef344f11c294ef491802b3fae2ba9e45676016d3636cadb6c&)
-![Meadow CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210538420162527242/image.png?ex=65eaecc2&is=65d877c2&hm=5124d6d62431651c1148c0a73babb6cd4f8f56d353b8144bef1b86315c1637b2&)
-![Moon CoolerStages](https://cdn.discordapp.com/attachments/968891050187972658/1210542761045004288/image.png?ex=65eaf0cd&is=65d87bcd&hm=05e4a001e5ca01c757a82109c187fc1abe38c8fe5b7c1b75cb61910a47f94021&)
+![Roost](https://cdn.discordapp.com/attachments/968891050187972658/1216543298152566924/image.png?ex=6600c53c&is=65ee503c&hm=135c6d42a18f15f062185203ca374aff2e8cc510ab3ea0f44d850aae6a1d3ff8&)
+![Aphelian](https://cdn.discordapp.com/attachments/968891050187972658/1216549350147358830/image.png?ex=6600cadf&is=65ee55df&hm=cc6096af3f9aa2b67ca0851574db404adfb07c84337155617f19ac4b934d3d6e&)
+![Pools](https://cdn.discordapp.com/attachments/968891050187972658/1216550146280657028/image.png?ex=6600cb9d&is=65ee569d&hm=0fa300419bd82aab70b4008de3096c1d2697666f64f3fc136afd82603e7bde9a&)
+![Abyssal](https://cdn.discordapp.com/attachments/968891050187972658/1216544236774625311/image.png?ex=6600c61c&is=65ee511c&hm=e5ba779a15c24ef2ef3c827a475d45259cee87b4d78e1f9f7624a1ecdb85d2f9&)
+![Meadow](https://cdn.discordapp.com/attachments/968891050187972658/1216552062373073017/image.png?ex=6600cd66&is=65ee5866&hm=40a69ee6140cd9c422e9e3b0d4ce8ca4256f5901c7e87a749d3b30cf832002e0&)
+![Moon](https://cdn.discordapp.com/attachments/968891050187972658/1216541826647982211/image.png?ex=6600c3dd&is=65ee4edd&hm=b3a93abd11c6e5d55d6a4a9304e9382dcf3a6356f4263bc39c2b3181d31565ad&)
 
 ## Credits
 
 [StageAesthetic](https://thunderstore.io/package/HIFU/StageAesthetic/) by HIFU
 
 ## Changelog
+
+**1.7.0**
+
+- Adds ambient lighting that matches dynamic color
+- Increases brighten threshold on darkness check
+- Re-Fixes moon fog having terrain material (phantom walls at mass)
+- Replaces README photos
 
 **1.6.3**
 
