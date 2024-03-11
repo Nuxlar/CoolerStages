@@ -211,31 +211,23 @@ namespace CoolerStages
             {
               mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
               mainLight.color = BrightenColor(mainLight.color, 0.2f);
+              SetAmbientLight ambLight = mainLight.gameObject.AddComponent<SetAmbientLight>();
+              ambLight.ambientIntensity = 0.5f;
+              ambLight.ambientSkyColor = mainLight.color;
+              ambLight.ApplyLighting();
               lightColor = mainLight.color;
             }
 
             if (IsBright(testTerrainMat))
             {
               if (sceneName == "snowyforest")
-              {
                 mainLight.intensity = 2.5f;
-                mainLight.shadowStrength = 0.5f;
-              }
               else if (sceneName == "frozenwall")
-              {
                 mainLight.intensity = 1.5f;
-                mainLight.shadowStrength = 0.5f;
-              }
               else if (testTerrainMat.name.Contains("VoidTerrain"))
-              {
                 mainLight.intensity = 1f;
-                mainLight.shadowStrength = 0.75f;
-              }
               else if (sceneName == "dampcavesimple")
-              {
                 mainLight.intensity = 1.5f;
-                mainLight.shadowStrength = 0.75f;
-              }
               else if (sceneName == "moon2")
                 mainLight.intensity = 0.75f;
               else
@@ -244,15 +236,9 @@ namespace CoolerStages
             else
             {
               if (sceneName == "snowyforest")
-              {
                 mainLight.intensity = 3.5f;
-                mainLight.shadowStrength = 0.5f;
-              }
               else if (sceneName == "dampcavesimple" && testTerrainMatAlt.name.Contains("Snowy"))
-              {
                 mainLight.intensity = 1f;
-                mainLight.shadowStrength = 0.75f;
-              }
               else if (sceneName == "dampcavesimple")
               {
                 mainLight.intensity = 2.5f;
