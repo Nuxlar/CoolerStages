@@ -10,11 +10,10 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.7.0")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.8.0")]
 
   public class CoolerStages : BaseUnityPlugin
   {
-    private static readonly PostProcessProfile danProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneEclipseStandard.asset").WaitForCompletion();
     private static readonly PostProcessProfile droughtProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneWispGraveyard.asset").WaitForCompletion();
     private static readonly PostProcessProfile voidProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/DLC1/Common/Void/ppSceneVoidStage.asset").WaitForCompletion();
 
@@ -69,6 +68,11 @@ namespace CoolerStages
     private static readonly Material bazaarDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
     private static readonly Material bazaarDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/mysteryspace/matMSObeliskHeart.mat").WaitForCompletion();
 
+    private static readonly Material jungleTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTerrain.mat").WaitForCompletion();
+    private static readonly Material jungleDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJRock.mat").WaitForCompletion();
+    private static readonly Material jungleDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTemple.mat").WaitForCompletion();
+    private static readonly Material jungleDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTree.mat").WaitForCompletion();
+
     private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
       new Material[] { nightTerrainMat, nightDetailMat, nightDetailMat2, nightDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
@@ -78,32 +82,27 @@ namespace CoolerStages
       new Material[] { gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 },
       new Material[] { gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 },
       new Material[] { moonTerrainMat, moonDetailMat, moonDetailMat2, moonDetailMat3 },
-      new Material[] { voidTerrainMat, voidDetailMat, voidDetailMat2, voidDetailMat3 },
-      new Material[] { bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 }
+      new Material[] { bazaarTerrainMat, bazaarDetailMat, bazaarDetailMat2, bazaarDetailMat3 },
+      new Material[] { jungleTerrainMat, jungleDetailMat, jungleDetailMat2, jungleDetailMat3 },
     };
 
     private static readonly List<Material[]> themeMaterials2 = new List<Material[]> {
       new Material[] { nightTerrainMat2, nightDetailMat, nightDetailMat2, nightDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
       new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
-      new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 },
-      new Material[] { voidTerrainMat, voidDetailMat, voidDetailMat2, voidDetailMat3 }
+      new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
     };
 
     private static readonly List<PostProcessProfile> themeProfiles = new List<PostProcessProfile> {
       droughtProfile,
       voidProfile,
-      danProfile,
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneArenaCleared.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneArtifactWorld.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneBlackbeach_Eclipse.asset").WaitForCompletion(),
+      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneBlackbeach.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneFoggyswamp.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplainsFoggy.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplains.asset").WaitForCompletion(),
       Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneMoon.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneWispGraveyard.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneRootJungleRain.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneSkyMeadow.asset").WaitForCompletion(),
+      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGoldshores.asset").WaitForCompletion(),
+      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneShipgraveyard.asset").WaitForCompletion(),
     };
 
     private System.Random rng = new System.Random();
@@ -223,23 +222,47 @@ namespace CoolerStages
               lightColor = mainLight.color;
             }
 
-            if (IsBright(testTerrainMat))
+            mainLight.shadowStrength = 0.75f;
+
+            bool isBright;
+            bool isAnnoyingTerrain;
+            if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
             {
-              if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach"))
+              isBright = IsBright(testTerrainMatAlt);
+              isAnnoyingTerrain = testTerrainMatAlt.name.Contains("matDC");
+            }
+            else
+            {
+              isBright = IsBright(testTerrainMat);
+              isAnnoyingTerrain = testTerrainMat.name.Contains("matDC");
+            }
+
+            if (isBright)
+            {
+              if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
                 mainLight.intensity = 1f;
-              else if (testTerrainMat.name.Contains("VoidTerrain"))
-                mainLight.intensity = 1f;
+              else if (isAnnoyingTerrain && testProfile.name.Contains("void"))
+                mainLight.intensity = 1.5f;
+              else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
+              {
+                mainLight.intensity = testTerrainMatAlt.name.Contains("snowy") ? 0.5f : 1f;
+                mainLight.shadowStrength = 0.5f;
+              }
               else
                 mainLight.intensity = 0.5f;
             }
             else
             {
-              if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach"))
+              if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
                 mainLight.intensity = 2f;
+              else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
+              {
+                mainLight.intensity = 2f;
+                mainLight.shadowStrength = 0.5f;
+              }
               else
                 mainLight.intensity = 1f;
             }
-
             if (sceneName == "goolake" || sceneName == "frozenwall")
             {
               Light sunLight2 = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
@@ -248,111 +271,111 @@ namespace CoolerStages
               sun.SetActive(false);
               sun.name = "Fake Sun";
             }
-          }
 
-          if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
-          {
-            Debug.LogWarning($"Terrain Alt Material: {testTerrainMatAlt.name}");
-            Debug.LogWarning($"Detail Alt (Rocks) Material: {testDetailMatAlt.name}");
-            Debug.LogWarning($"Detail2 Alt (Ruins) Material: {testDetailMat2Alt.name}");
-            Debug.LogWarning($"Detail3 Alt (Trees) Material: {testDetailMat3Alt.name}");
-            Debug.LogWarning($"Post Process Profile : {testProfile.name}");
-          }
-          else
-          {
-            Debug.LogWarning($"Terrain Material: {testTerrainMat.name}");
-            Debug.LogWarning($"Detail (Rocks) Material: {testDetailMat.name}");
-            Debug.LogWarning($"Detail2 (Ruins) Material: {testDetailMat2.name}");
-            Debug.LogWarning($"Detail3 (Trees) Material: {testDetailMat3.name}");
-            Debug.LogWarning($"Post Process Profile: {testProfile.name}");
-          }
+            if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
+            {
+              Debug.LogWarning($"Terrain Alt Material: {testTerrainMatAlt.name}");
+              Debug.LogWarning($"Detail Alt (Rocks) Material: {testDetailMatAlt.name}");
+              Debug.LogWarning($"Detail2 Alt (Ruins) Material: {testDetailMat2Alt.name}");
+              Debug.LogWarning($"Detail3 Alt (Trees) Material: {testDetailMat3Alt.name}");
+              Debug.LogWarning($"Post Process Profile : {testProfile.name}");
+            }
+            else
+            {
+              Debug.LogWarning($"Terrain Material: {testTerrainMat.name}");
+              Debug.LogWarning($"Detail (Rocks) Material: {testDetailMat.name}");
+              Debug.LogWarning($"Detail2 (Ruins) Material: {testDetailMat2.name}");
+              Debug.LogWarning($"Detail3 (Trees) Material: {testDetailMat3.name}");
+              Debug.LogWarning($"Post Process Profile: {testProfile.name}");
+            }
 
-          switch (sceneName)
-          {
-            case "blackbeach":
-              Stage1.Roost1(testTerrainMat, testDetailMat, testDetailMat2);
-              break;
-            case "blackbeach2":
-              Stage1.Roost2(testTerrainMat, testDetailMat, testDetailMat2);
-              break;
-            case "golemplains":
-              Stage1.Plains(testTerrainMat, testDetailMat, testDetailMat2);
-              break;
-            case "golemplains2":
-              Stage1.Plains(testTerrainMat, testDetailMat, testDetailMat2);
-              break;
-            case "snowyforest":
-              Stage1.Forest(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
-              break;
-            case "goolake":
-              Stage2.Aqueduct(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
-              break;
-            case "ancientloft":
-              Stage2.Aphelian(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
-              break;
-            case "foggyswamp":
-              Stage2.Wetland(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt);
-              break;
-            case "frozenwall":
-              Stage3.RPD(testTerrainMat, testDetailMat, testDetailMat2);
-              break;
-            case "wispgraveyard":
-              Stage3.Acres(testTerrainMat, testDetailMat, testDetailMat2);
-              break;
-            case "sulfurpools":
-              GameObject.Find("CameraRelative").transform.GetChild(1).gameObject.SetActive(false);
-              Stage3.Pools(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
-              break;
-            case "rootjungle":
-              Stage4.Grove(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
-              break;
-            case "shipgraveyard":
-              Stage4.Sirens(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
-              break;
-            case "dampcavesimple":
-              if (testTerrainMatAlt.name.Contains("Snowy"))
-                Stage4.Abyssal(testTerrainMatAlt, testDetailMat3Alt, testDetailMatAlt, testDetailMat2Alt);
-              else
-                Stage4.Abyssal(testTerrainMatAlt, testDetailMatAlt, testDetailMat3Alt, testDetailMat2Alt);
-              AbyssalLighting(lightColor);
-              if (GameObject.Find("DCPPInTunnels"))
-                GameObject.Find("DCPPInTunnels").SetActive(false);
-              break;
-            case "skymeadow":
-              Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2);
-              break;
-            case "moon2":
-              Transform es = GameObject.Find("EscapeSequenceController").transform.GetChild(0);
-              es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
-              es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
-              es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
+            switch (sceneName)
+            {
+              case "blackbeach":
+                Stage1.Roost1(testTerrainMat, testDetailMat, testDetailMat2);
+                break;
+              case "blackbeach2":
+                Stage1.Roost2(testTerrainMat, testDetailMat, testDetailMat2);
+                break;
+              case "golemplains":
+                Stage1.Plains(testTerrainMat, testDetailMat, testDetailMat2);
+                break;
+              case "golemplains2":
+                Stage1.Plains(testTerrainMat, testDetailMat, testDetailMat2);
+                break;
+              case "snowyforest":
+                Stage1.Forest(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+                break;
+              case "goolake":
+                Stage2.Aqueduct(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+                break;
+              case "ancientloft":
+                Stage2.Aphelian(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+                break;
+              case "foggyswamp":
+                Stage2.Wetland(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt);
+                break;
+              case "frozenwall":
+                Stage3.RPD(testTerrainMat, testDetailMat, testDetailMat2);
+                break;
+              case "wispgraveyard":
+                Stage3.Acres(testTerrainMat, testDetailMat, testDetailMat2);
+                break;
+              case "sulfurpools":
+                GameObject.Find("CameraRelative").transform.GetChild(1).gameObject.SetActive(false);
+                Stage3.Pools(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
+                break;
+              case "rootjungle":
+                Stage4.Grove(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+                break;
+              case "shipgraveyard":
+                Stage4.Sirens(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
+                break;
+              case "dampcavesimple":
+                if (testTerrainMatAlt.name.Contains("Snowy"))
+                  Stage4.Abyssal(testTerrainMatAlt, testDetailMat3Alt, testDetailMatAlt, testDetailMat2Alt);
+                else
+                  Stage4.Abyssal(testTerrainMatAlt, testDetailMatAlt, testDetailMat3Alt, testDetailMat2Alt);
+                AbyssalLighting(lightColor);
+                if (GameObject.Find("DCPPInTunnels"))
+                  GameObject.Find("DCPPInTunnels").SetActive(false);
+                break;
+              case "skymeadow":
+                Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2);
+                break;
+              case "moon2":
+                Transform es = GameObject.Find("EscapeSequenceController").transform.GetChild(0);
+                es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
+                es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
+                es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
 
-              RampFog fog = volume.profile.GetSetting<RampFog>();
-              fog.fogIntensity.value = testFog.fogIntensity.value;
-              fog.fogPower.value = testFog.fogPower.value;
-              fog.fogZero.value = testFog.fogZero.value;
-              fog.fogOne.value = testFog.fogOne.value;
-              fog.fogColorStart.value = testFog.fogColorStart.value;
-              fog.fogColorMid.value = testFog.fogColorMid.value;
-              fog.fogColorEnd.value = testFog.fogColorEnd.value;
-              fog.skyboxStrength.value = testFog.skyboxStrength.value;
+                RampFog fog = volume.profile.GetSetting<RampFog>();
+                fog.fogIntensity.value = testFog.fogIntensity.value;
+                fog.fogPower.value = testFog.fogPower.value;
+                fog.fogZero.value = testFog.fogZero.value;
+                fog.fogOne.value = testFog.fogOne.value;
+                fog.fogColorStart.value = testFog.fogColorStart.value;
+                fog.fogColorMid.value = testFog.fogColorMid.value;
+                fog.fogColorEnd.value = testFog.fogColorEnd.value;
+                fog.skyboxStrength.value = testFog.skyboxStrength.value;
 
-              PostProcessVolume bruh = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<PostProcessVolume>();
-              bruh.weight = 0.28f;
-              HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
-              // 0.1138 0.1086 0.15 1
-              // 0.1012 0.1091 0.1226 1
-              bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
-              bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
-              if (testTerrainMat.name.Contains("Snowy"))
-                Stage6.Moon(testTerrainMat, testDetailMat3, testDetailMat2, testDetailMat);
-              else
-                Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
-              break;
+                PostProcessVolume bruh = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<PostProcessVolume>();
+                bruh.weight = 0.28f;
+                HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
+                // 0.1138 0.1086 0.15 1
+                // 0.1012 0.1091 0.1226 1
+                bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
+                bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
+                if (testTerrainMat.name.Contains("Snowy"))
+                  Stage6.Moon(testTerrainMat, testDetailMat3, testDetailMat2, testDetailMat);
+                else
+                  Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+                break;
+            }
           }
         }
+        orig(self);
       }
-      orig(self);
     }
 
     public static void AbyssalLighting(Color color)
@@ -394,8 +417,10 @@ namespace CoolerStages
     {
       float luminance = CalculateLuminance(color);
       Debug.LogWarning($"Luminance: {luminance}");
-      if (luminance < 0.7f)
+      if (luminance < 0.8f)
       {
+        if (luminance < 0.7f)
+          brightenAmount *= 2;
         Debug.LogWarning("Too dark, brightening light color");
         color.r = Mathf.Clamp01(color.r + brightenAmount);
         color.g = Mathf.Clamp01(color.g + brightenAmount);

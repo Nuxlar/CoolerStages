@@ -2,7 +2,7 @@
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
-Might work with StageAesthetic or CoolerEclipse idk. Randomzied, 10 material themes and 13 post processing profiles leading to around 100 theme combos per stage for stages 1-6, doesn't work on modded stages.
+Might work with StageAesthetic or CoolerEclipse idk. Randomzied, 10 material themes and 9 post processing profiles leading to around 100 theme combos per stage for stages 1-6, doesn't work on modded stages.
 
 If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'll give a new randomized theme.
 
@@ -20,6 +20,14 @@ Stage materials and post process profile print to the console on stage load. `al
 [StageAesthetic](https://thunderstore.io/package/HIFU/StageAesthetic/) by HIFU
 
 ## Changelog
+
+**1.8.0**
+
+- Removes/Replaces post processing profiles that were causing darker stages
+- Removes 1 material theme (Locus) because the terrain was wonky
+- Enhances color lightening method
+- Adds conditions to account for specific materials/post processing causing darker stages
+- Fixes certain stages accounting for wrong terrain material
 
 **1.7.0**
 
