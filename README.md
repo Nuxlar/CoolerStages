@@ -21,6 +21,16 @@ Stage materials and post process profile print to the console on stage load. `al
 
 ## Changelog
 
+**1.8.2**
+
+- Changes light color brightening to be less aggressive (shouldn't have neon-esque light colors)
+- Increases sun light brightness on certain materials
+- Changes "Void Abyssal" gold material to something less offensive to the eyes
+
+**1.8.1**
+
+- Fixes modded/non-whitelisted maps not spawning interactables
+
 **1.8.0**
 
 - Removes/Replaces post processing profiles that were causing darker stages

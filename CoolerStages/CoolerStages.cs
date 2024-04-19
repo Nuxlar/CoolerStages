@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.8.0")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.8.2")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -41,7 +41,7 @@ namespace CoolerStages
     private static readonly Material dcSimTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCTerrainFloorInfiniteTower.mat").WaitForCompletion();
     private static readonly Material dcSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCBoulderInfiniteTower.mat").WaitForCompletion();
     private static readonly Material dcSimDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matTrimSheetLemurianRuinsLightInfiniteTower.mat").WaitForCompletion();
-    private static readonly Material dcSimDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/dampcave/matDCCrystal.mat").WaitForCompletion();
+    private static readonly Material dcSimDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCStalagmiteInfiniteTower.mat").WaitForCompletion();
 
     private static readonly Material gpSimTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itgolemplains/matGPTerrainInfiniteTower.mat").WaitForCompletion();
     private static readonly Material gpSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itgolemplains/matGPBoulderMossyProjectedInfiniteTower.mat").WaitForCompletion();
@@ -106,8 +106,6 @@ namespace CoolerStages
     };
 
     private System.Random rng = new System.Random();
-    public static ConfigEntry<bool> shouldRollVanilla;
-    private static ConfigFile CSConfig { get; set; }
     private static readonly string[] whitelistedMaps = new string[] {
       "snowyforest",
       "blackbeach",
@@ -128,8 +126,6 @@ namespace CoolerStages
 };
     public void Awake()
     {
-      CSConfig = new ConfigFile(Paths.ConfigPath + "\\com.Nuxlar.CoolerStages.cfg", true);
-      shouldRollVanilla = CSConfig.Bind<bool>("General", "Include Vanilla", true, "Add vanilla stage materials/post processing to the pool");
       On.RoR2.SceneDirector.Start += SceneDirector_Start;
     }
 
@@ -199,7 +195,7 @@ namespace CoolerStages
             if (sceneName == "wispgraveyard" || sceneName == "ancientloft")
             {
               mainLight.color = new Color(testFog.fogColorEnd.value.a, testFog.fogColorEnd.value.g, testFog.fogColorEnd.value.b, 1f);
-              mainLight.color = BrightenColor(mainLight.color, 0.1f);
+              mainLight.color = BrightenColor(mainLight.color, 0.05f);
               SetAmbientLight ambLight = volume.GetComponent<SetAmbientLight>();
               ambLight.ambientIntensity = 1f;
               ambLight.ambientSkyColor = Color.gray;
@@ -261,7 +257,7 @@ namespace CoolerStages
                 mainLight.shadowStrength = 0.5f;
               }
               else
-                mainLight.intensity = 1f;
+                mainLight.intensity = 1.5f;
             }
             if (sceneName == "goolake" || sceneName == "frozenwall")
             {
@@ -374,8 +370,8 @@ namespace CoolerStages
             }
           }
         }
-        orig(self);
       }
+      orig(self);
     }
 
     public static void AbyssalLighting(Color color)
@@ -417,9 +413,9 @@ namespace CoolerStages
     {
       float luminance = CalculateLuminance(color);
       Debug.LogWarning($"Luminance: {luminance}");
-      if (luminance < 0.8f)
+      if (luminance < 0.7f)
       {
-        if (luminance < 0.7f)
+        if (luminance < 0.6f)
           brightenAmount *= 2;
         Debug.LogWarning("Too dark, brightening light color");
         color.r = Mathf.Clamp01(color.r + brightenAmount);
