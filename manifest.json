@@ -1,10 +1,10 @@
 ﻿{
-	"name": "CoolerStages",
-	"version_number": "1.8.2",
-	"website_url": "https://github.com/FocusedFault/CoolerStages/issues",
-	"description": "Randomized Update. Adds over 1k theme variants.",
-	"dependencies": [
-		"bbepis-BepInExPack-5.4.2111",
-		"RiskofThunder-HookGenPatcher-1.2.3"
-	]
+  "name": "CoolerStages",
+  "version_number": "1.8.3",
+  "website_url": "https://github.com/FocusedFault/CoolerStages/issues",
+  "description": "Randomized Update. Adds 'randomized' themes to stages.",
+  "dependencies": [
+    "bbepis-BepInExPack-5.4.2111",
+    "RiskofThunder-HookGenPatcher-1.2.3"
+  ]
 }

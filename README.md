@@ -2,24 +2,23 @@
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
-Might work with StageAesthetic or CoolerEclipse idk. Randomzied, 10 material themes and 9 post processing profiles leading to around 100 theme combos per stage for stages 1-6, doesn't work on modded stages.
+Randomzied, 10 material themes and 6 post processing profiles leading to around 60 theme combos per stage for stages 1-6, doesn't work on modded stages.
 
 If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'll give a new randomized theme.
 
 Stage materials and post process profile print to the console on stage load. `alt + ctrl + ~` to open the console
-
-![Roost](https://cdn.discordapp.com/attachments/968891050187972658/1216543298152566924/image.png?ex=6600c53c&is=65ee503c&hm=135c6d42a18f15f062185203ca374aff2e8cc510ab3ea0f44d850aae6a1d3ff8&)
-![Aphelian](https://cdn.discordapp.com/attachments/968891050187972658/1216549350147358830/image.png?ex=6600cadf&is=65ee55df&hm=cc6096af3f9aa2b67ca0851574db404adfb07c84337155617f19ac4b934d3d6e&)
-![Pools](https://cdn.discordapp.com/attachments/968891050187972658/1216550146280657028/image.png?ex=6600cb9d&is=65ee569d&hm=0fa300419bd82aab70b4008de3096c1d2697666f64f3fc136afd82603e7bde9a&)
-![Abyssal](https://cdn.discordapp.com/attachments/968891050187972658/1216544236774625311/image.png?ex=6600c61c&is=65ee511c&hm=e5ba779a15c24ef2ef3c827a475d45259cee87b4d78e1f9f7624a1ecdb85d2f9&)
-![Meadow](https://cdn.discordapp.com/attachments/968891050187972658/1216552062373073017/image.png?ex=6600cd66&is=65ee5866&hm=40a69ee6140cd9c422e9e3b0d4ce8ca4256f5901c7e87a749d3b30cf832002e0&)
-![Moon](https://cdn.discordapp.com/attachments/968891050187972658/1216541826647982211/image.png?ex=6600c3dd&is=65ee4edd&hm=b3a93abd11c6e5d55d6a4a9304e9382dcf3a6356f4263bc39c2b3181d31565ad&)
 
 ## Credits
 
 [StageAesthetic](https://thunderstore.io/package/HIFU/StageAesthetic/) by HIFU
 
 ## Changelog
+
+**1.8.3**
+
+- Removes a bunch of post process themes that made the lighting not great
+- Adds a sky meadow material theme
+- Removes jungle theme
 
 **1.8.2**
 
