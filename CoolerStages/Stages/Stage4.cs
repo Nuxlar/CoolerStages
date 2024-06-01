@@ -15,6 +15,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("Rock Holder") || meshBase.name.Contains("Vine Tree") || meshBase.name.Contains("Gianticus") || meshBase.name.Contains("Tree Big Bottom") || meshBase.name.Contains("Root Bridge") || meshBase.name.Contains("Tree D") || meshBase.name.Contains("Wall") || meshBase.name.Contains("RJRoot") || meshBase.name.Contains("RJShroomShelf")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("RJTriangle") || meshBase.name.Contains("BbRuinArch")) && renderer.sharedMaterial)
@@ -47,6 +51,10 @@ namespace CoolerStages
                             if ((meshBase.name.Contains("Stalactite") || meshBase.name.Contains("Stalagmite")) && (meshParent.name.Contains("Cave") || meshParent.name.Contains("Stalagmite")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = detailMat;
                         }
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("Stalactite") || meshBase.name.Contains("Level Wall") || meshBase.name.Contains("Cave") || meshBase.name.Contains("Floor") || meshBase.name.Contains("Spikes")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("Ship") || meshBase.name.Contains("Stalagmite") || meshBase.name.Contains("mdlGeyser")) && renderer.sharedMaterial)
@@ -74,6 +82,10 @@ namespace CoolerStages
                                 renderer.sharedMaterial = detailMat3;
                             if (meshBase.name.Contains("RuinBowl") && meshParent.name.Contains("RuinMarker") && renderer.sharedMaterial)
                                 renderer.sharedMaterial = detailMat3;
+                        }
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
                         }
                         if ((meshBase.name.Contains("Hero") || meshBase.name.Contains("Ceiling") || meshBase.name.Contains("Column")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;

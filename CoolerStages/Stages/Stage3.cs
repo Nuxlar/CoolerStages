@@ -36,6 +36,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("Dirt")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("Rock") || meshBase.name.Contains("Boulder") || meshBase.name.Contains("Crystal")) && renderer.sharedMaterial)

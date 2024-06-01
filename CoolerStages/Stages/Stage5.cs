@@ -5,7 +5,7 @@ namespace CoolerStages
     public class Stage5
     {
 
-        public static void SkyMeadow(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3)
+        public static void SkyMeadow(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color grassColor)
         {
             var r = GameObject.Find("HOLDER: Randomization").transform;
             var btp = GameObject.Find("PortalDialerEvent").transform.GetChild(0);
@@ -29,6 +29,21 @@ namespace CoolerStages
                             if ((meshBase.name.Contains("Terrain") && meshParent.name.Contains("skymeadow_terrain") || meshBase.name.Contains("Plateau Under") && meshParent.name.Contains("Underground")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = terrainMat;
                         }
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
+                        /*
+                        if (meshBase.name.Contains("spmSMGrass"))
+                        {
+                            if (renderer.sharedMaterial != null)
+                            {
+                                renderer.sharedMaterial.color = grassColor;
+                                if (renderer.sharedMaterials.Length >= 2)
+                                    renderer.sharedMaterials[1].color = grassColor;
+                            }
+                        }
+                        */
                         if ((meshBase.name.Contains("SMPebble") || meshBase.name.Contains("Rock") || meshBase.name.Contains("mdlGeyser")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
                         if (meshBase.name.Contains("SMSpikeBridge") && renderer.sharedMaterial)

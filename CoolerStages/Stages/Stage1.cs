@@ -1,9 +1,55 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CoolerStages
 {
     public class Stage1
     {
+        private static Texture2D terrainSandTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainSand.tga").WaitForCompletion();
+        private static Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainDirt.tga").WaitForCompletion();
+
+        public static void Falls(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color32 color)
+        {
+            if (terrainMat && detailMat && detailMat2 && detailMat3)
+            {
+                MeshRenderer[] meshList = UnityEngine.Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
+                foreach (MeshRenderer renderer in meshList)
+                {
+                    GameObject meshBase = renderer.gameObject;
+                    if (meshBase != null)
+                    {
+                        if (meshBase.name.Contains("TLTerrain") && !meshBase.name.Contains("Vines") && !meshBase.name.Contains("GiantFlower") && !meshBase.name.Contains("Ship") && renderer.sharedMaterial)
+                            renderer.sharedMaterial = terrainMat;
+                        if ((meshBase.name.Contains("TLTerrain_GiantFlower") || meshBase.name.Contains("TLTerrain_TreePads")) && renderer.sharedMaterial)
+                        {
+                            /*
+                            if (meshBase.name.Contains("TreePads"))
+                                renderer.sharedMaterials = new Material[] { terrainMat, renderer.sharedMaterials[1], renderer.sharedMaterials[2] };
+                            else
+                                renderer.sharedMaterials = new Material[] { terrainMat, renderer.sharedMaterials[1] };
+                                */
+                            foreach (Material mat in renderer.sharedMaterials)
+                            {
+                                mat.color = color;
+                            }
+                        }
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
+                        if (meshBase.name.Contains("Vines") || meshBase.name.Contains("TLRoot") && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat3;
+                        if ((meshBase.name.Contains("TLTerrain_Ship") || meshBase.name.Contains("TLArchi") || meshBase.name.Contains("TLDoor")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat2;
+                        if (meshBase.name.Contains("TLRock") && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat;
+                    }
+                }
+            }
+            // TLTerrain without Vines/GiantFlower/TreePads/Ship/VinesLeaves
+            // TLRock
+            // TLArchi/TLDoor
+        }
 
         public static void Roost1(Material terrainMat, Material detailMat, Material detailMat2)
         {
@@ -17,6 +63,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Pebble") || meshBase.name.Contains("Detail")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
                         if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("RuinArch") || meshBase.name.Contains("RuinGate")) && renderer.sharedMaterial)
@@ -43,6 +93,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("DistantBridge")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
                         if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("RuinArch") || meshBase.name.Contains("RuinGate")) && renderer.sharedMaterial)
@@ -64,6 +118,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if ((meshBase.name.Contains("Terrain") || meshBase.name == "Wall North") && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("Rock") || meshBase.name.Contains("Boulder") || meshBase.name.Contains("mdlGeyser")) && renderer.sharedMaterial)
@@ -88,6 +146,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if (meshBase.name == "meshSnowyForestGiantTreesTops")
                             meshBase.gameObject.SetActive(false);
                         if ((meshBase.name.Contains("Terrain") || meshBase.name.Contains("SnowPile")) && renderer.sharedMaterial)

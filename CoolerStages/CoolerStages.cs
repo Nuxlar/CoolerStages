@@ -1,5 +1,4 @@
 using BepInEx;
-using BepInEx.Configuration;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -10,13 +9,10 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.8.3")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.0")]
 
   public class CoolerStages : BaseUnityPlugin
   {
-    private static readonly PostProcessProfile droughtProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneWispGraveyard.asset").WaitForCompletion();
-    private static readonly PostProcessProfile voidProfile = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/DLC1/Common/Void/ppSceneVoidStage.asset").WaitForCompletion();
-
     private static readonly Material nightTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matWPTerrain.mat").WaitForCompletion();
     private static readonly Material nightTerrainMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matWPTerrainRocky.mat").WaitForCompletion();
     private static readonly Material nightDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/wispgraveyard/matTempleObelisk.mat").WaitForCompletion();
@@ -28,7 +24,8 @@ namespace CoolerStages
     private static readonly Material danDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimSheetAlien1BossEmission.mat").WaitForCompletion();
     private static readonly Material danDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTrim.mat").WaitForCompletion();
 
-    private static readonly Material ruinTerrain = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TerrainInfiniteTower.mat").WaitForCompletion();
+    private static readonly Material ruinTerrainTest = new Material(Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleProjectedInfiniteTower.mat").WaitForCompletion());
+    private static readonly Material ruinTerrain = new Material(Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleProjectedInfiniteTower.mat").WaitForCompletion());
     private static readonly Material ruinDetail = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_BoulderInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itancientloft/matAncientLoft_TempleProjectedInfiniteTower.mat").WaitForCompletion();
     private static readonly Material ruinDetail3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/rootjungle/matRJTree.mat").WaitForCompletion();
@@ -37,11 +34,6 @@ namespace CoolerStages
     private static readonly Material smSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMRockInfiniteTower.mat").WaitForCompletion();
     private static readonly Material smSimDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matTrimSheetMeadowRuinsProjectedInfiniteTower.mat").WaitForCompletion();
     private static readonly Material smSimtDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itskymeadow/matSMSpikeBridgeInfinitetower.mat").WaitForCompletion();
-
-    private static readonly Material smTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/skymeadow/matSMTerrain.mat").WaitForCompletion();
-    private static readonly Material smDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/skymeadow/matSMRock.mat").WaitForCompletion();
-    private static readonly Material smDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/Common/TrimSheets/matTrimSheetMeadowRuinsProjected.mat").WaitForCompletion();
-    private static readonly Material smDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/skymeadow/matSMSpikeBridge.mat").WaitForCompletion();
 
     private static readonly Material dcSimTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCTerrainFloorInfiniteTower.mat").WaitForCompletion();
     private static readonly Material dcSimDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/itdampcave/matDCBoulderInfiniteTower.mat").WaitForCompletion();
@@ -63,11 +55,6 @@ namespace CoolerStages
     private static readonly Material moonDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon/matMoonBridge.mat").WaitForCompletion();
     private static readonly Material moonDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/moon/matMoonBaseStandTriplanar.mat").WaitForCompletion();
 
-    private static readonly Material voidTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTerrain.mat").WaitForCompletion();
-    private static readonly Material voidDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidCoralPlatformRed.mat").WaitForCompletion();
-    private static readonly Material voidDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidMetalTrimGrassyVertexColorsOnly.mat").WaitForCompletion();
-    private static readonly Material voidDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidCoral.mat").WaitForCompletion();
-
     private static readonly Material bazaarTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarTerrainTriplanar.mat").WaitForCompletion();
     private static readonly Material bazaarDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarWoodSandy.mat").WaitForCompletion();
     private static readonly Material bazaarDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
@@ -77,27 +64,11 @@ namespace CoolerStages
     private static readonly Material rpdTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/frozenwall/matFwTerrainFloor.mat").WaitForCompletion();
     private static readonly Material forestTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/snowyforest/matSFGround.mat").WaitForCompletion();
 
-    private static readonly List<Material> terrainMaterials = new List<Material> {
-      nightTerrainMat,
-      danTerrain,
-      ruinTerrain,
-      smSimTerrainMat,
-      dcSimTerrainMat,
-      gpSimTerrainMat,
-      gooSimTerrainMat,
-      moonTerrainMat,
-      bazaarTerrainMat,
-      poolsTerrainMat,
-      rpdTerrainMat,
-      forestTerrainMat
-    };
-
     private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
+      new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3 },
       new Material[] { nightTerrainMat, nightDetailMat, nightDetailMat2, nightDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
       new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
-      new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3 },
-      new Material[] { smTerrainMat, smDetailMat, smDetailMat2, smDetailMat3 },
       new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 },
       new Material[] { gpSimTerrainMat, gpSimDetailMat, gpSimDetailMat2, gpSimDetailMat3 },
       new Material[] { gooSimTerrainMat, gooSimDetailMat, gooSimDetailMat2, gooSimDetailMat3 },
@@ -112,55 +83,9 @@ namespace CoolerStages
       new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
     };
 
-    private static readonly List<PostProcessProfile> themeProfiles = new List<PostProcessProfile> {
-      droughtProfile,
-      voidProfile,
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneBlackbeach.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneFoggyswamp.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplainsFoggy.asset").WaitForCompletion(),
-      Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneMoon.asset").WaitForCompletion()
-    };
-    private static readonly List<Texture2D> normals = new()
-    {
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/blackbeach/texBBMudNormal.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texNormalBumpyRock.jpg").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/skymeadow/texSMRockBridgeNormal.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texRockyNormalsFlattened.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/mysteryspace/texMSSandNormal.png").WaitForCompletion(),
-    };
-    private static readonly List<Texture2D> blues = new()
-    {
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/wispgraveyard/texWIPAshDiffuse.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/blackbeach/texBlackbeachDirt.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itancientloft/texAncientLoft_LichenGreenOvergrownGroundStone.tga").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/skymeadow/texSMLichenTerrain.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itancientloft/texDCGravelDiffuseInfiniteTower.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/golemplains/texGPLichenTerrain.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/goolake/texGLMudDiffuse.png").WaitForCompletion(),
-    };
-    private static readonly List<Texture2D> greens = new()
-    {
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/golemplains/texGPGrassTerrain.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/arena/texArenaSandDiffuse.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itancientloft/texAncientLoft_Lichen.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/skymeadow/texSMGrassTerrain.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itdampcave/texDCGrassInfiniteTower.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itgolemplains/texGPGrassInfiniteTower.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itgoolake/texSand1SimpleInfiniteTower.png").WaitForCompletion(),
-    };
-    private static readonly List<Texture2D> reds = new()
-    {
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/blackbeach/texBlackbeachBasicRockSide.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/golemplains/texGPRockSide.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/bazaar/texBazaarRockSide.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/ancientloft/texDCGravelDiffuseInfiniteTower.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/skymeadow/texSMRockSide.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itdampcave/texDCRockSideInfiniteTower.png").WaitForCompletion(),
-      Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC1/itgoolake/texStage2RockSideInfiniteTower.png").WaitForCompletion(),
-    };
-
     private System.Random rng = new System.Random();
     private static readonly string[] whitelistedMaps = new string[] {
+      "lakes",
       "snowyforest",
       "blackbeach",
       "blackbeach2",
@@ -180,50 +105,142 @@ namespace CoolerStages
 };
 
     /*
-     Wisp Graveyard Terrain Material
-     Color (0.576, 0.560, 0.642, 1)
-    _NormalTex RoR2/Base/blackbeach/texBBMudNormal.png
-    _BlueChannelTex RoR2/Base/wispgraveyard/texWIPAshDiffuse.png 
-    _GreenChannelTex RoR2/Base/golemplains/texGPGrassTerrain.png
-    _RedChannelSideTex RoR2/Base/blackbeach/texBlackbeachBasicRockSide.png
-    _RedChannelTopTex RoR2/Base/golemplains/texGPRockSide.png
-
-     Arena Snowy Terrain Material
-     Color (1, 1, 1, 1)
-    _NormalTex RoR2/Base/Common/texNormalBumpyRock.jpg
-    _BlueChannelTex RoR2/Base/blackbeach/texBlackbeachDirt.png
-    _GreenChannelTex RoR2/Base/arena/texArenaSandDiffuse.png
-    _RedChannelSideTex RoR2/Base/bazaar/texBazaarRockSide.png
-    _RedChannelTopTex RoR2/Base/bazaar/texBazaarRockSide.png
-
-     Aphelian IT Terrain Material
-     Color (0.236, 0.509, 0.142, 1)
-    _NormalTex SplatAlpha 0
-    _BlueChannelTex RoR2/DLC1/itancientloft/texAncientLoft_LichenGreenOvergrownGroundStoneInfiniteTower.tga
-    _GreenChannelTex RoR2/DLC1/itancientloft/texAncientLoft_LichenInfiniteTower.png
-    _RedChannelSideTex RoR2/DLC1/itancientloft/texDCGravelDiffuseInfiniteTower.png
-    _RedChannelTopTex RoR2/DLC1/itancientloft/texDCGravelDiffuseInfiniteTower.png
-
-     Meadow IT Terrain Material
-     Color (1, 1, 1, 1)
-    _NormalTex RoR2/Base/skymeadow/texSMRockBridgeNormal.png
-    _BlueChannelTex RoR2/DLC1/itskymeadow/texSMLichenTerrainInfiniteTower.png
-    _GreenChannelTex RoR2/DLC1/itskymeadow/texSMGrassTerrainInfiniteTower.png
-    _RedChannelSideTex RoR2/DLC1/itskymeadow/texSMRockSideInfiniteTower.png
-    _RedChannelTopTex RoR2/DLC1/itskymeadow/texSMRockSideInfiniteTower.png
-
-     DampCave IT Terrain Material
-     Color (1, 1, 1, 1)
-    _NormalTex RoR2/Base/Common/texRockyNormalsFlattened.png
-    _BlueChannelTex RoR2/DLC1/itancientloft/texDCGravelDiffuseInfiniteTower.png
-    _GreenChannelTex RoR2/DLC1/itdampcave/texDCGrassInfiniteTower.png
-    _RedChannelSideTex RoR2/DLC1/itdampcave/texDCRockSideInfiniteTower.png
-    _RedChannelTopTex RoR2/DLC1/itdampcave/texDCRockSideInfiniteTower.png
-
+      Ancient Loft
+      Temple Material
+      _BlueChannelTex RoR2/DLC1/ancientloft/texAncientLoft_LichenGreenLighter.tga
+      _GreenChannelTex RoR2/DLC1/ancientloft/texAncientLoft_LichenGreenOvergrownGroundStone.tga
+      _NormalTex RoR2/Base/Common/texNormalTiles.jpg
+      _SplatmapTex RoR2/DLC1/ancientloft/texAncientLoft_splat.png
+      _RedChannelSideTex RoR2/DLC1/ancientloft/texAncientLoft_BaseWhiteBrick.png
+      _RedChannelTopTex RoR2/DLC1/ancientloft/texAncientLoft_BaseWhiteBrick.png
     */
+
+    private Texture2D tlCliffTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainCliff.tga").WaitForCompletion();
+    private Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainDirt.tga").WaitForCompletion();
+    private Texture2D rockNormal = Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texNormalBumpyRock.jpg").WaitForCompletion();
+
+    PostProcessProfile pp1 = ScriptableObject.CreateInstance<PostProcessProfile>();
+    PostProcessProfile pp2 = ScriptableObject.CreateInstance<PostProcessProfile>();
+    PostProcessProfile pp3 = ScriptableObject.CreateInstance<PostProcessProfile>();
+    PostProcessProfile pp4 = ScriptableObject.CreateInstance<PostProcessProfile>();
+    PostProcessProfile pp5 = ScriptableObject.CreateInstance<PostProcessProfile>();
+    PostProcessProfile pp6 = ScriptableObject.CreateInstance<PostProcessProfile>();
+    PostProcessProfile ppbb = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplainsFoggy.asset").WaitForCompletion();
 
     public void Awake()
     {
+      ruinTerrain.color = new Color(0.701f, 0.623f, 0.403f, 1);
+      ruinTerrain.SetTexture("_SplatmapTex", null);
+      ruinTerrain.SetTexture("_NormalTex", rockNormal);
+      ruinTerrain.SetTexture("_RedChannelSideTex", tlCliffTex);
+      ruinTerrain.SetTexture("_RedChannelTopTex", tlDirtTex);
+
+      ruinTerrainTest.color = Color.white;
+      // BINARYBLEND DOUBLESAMPLE MIX_VERTEX_COLORS USE_ALPHA_AS_MASK USE_VERTEX_COLORS
+      // DOUBLESAMPLE USE_ALPHA_AS_MASK USE_VERTICAL_BIAS
+      // ruinTerrainTest.shaderKeywords = new string[] { "BINARYBLEND", "DOUBLESAMPLE", "MIX_VERTEX_COLORS", "USE_ALPHA_AS_MASK", "USE_VERTEX_COLORS", "USE_VERTICAL_BIAS" };
+      /*
+      ruinTerrainTest.SetTexture("_SplatmapTex", null);
+      ruinTerrainTest.SetTexture("_NormalTex", bbNormalTex);
+      ruinTerrainTest.SetTexture("_BlueChannelTex", gpBlueTex);
+      ruinTerrainTest.SetTexture("_GreenChannelTex", gpGreenTex);
+      ruinTerrainTest.SetTexture("_RedChannelSideTex", tlCliffTex);
+      ruinTerrainTest.SetTexture("_RedChannelTopTex", bbRedTex);
+      */
+      pp1.name = "Winter";
+      pp2.name = "Fantasy";
+      pp3.name = "Auburn";
+      pp4.name = "Afternoon";
+      pp5.name = "Drowned";
+      pp6.name = "Dreary";
+
+      RampFog rf1 = pp1.AddSettings<RampFog>();
+      RampFog rf2 = pp2.AddSettings<RampFog>();
+      RampFog rf3 = pp3.AddSettings<RampFog>();
+      RampFog rf4 = pp4.AddSettings<RampFog>();
+      RampFog rf5 = pp5.AddSettings<RampFog>();
+      RampFog rf6 = pp6.AddSettings<RampFog>();
+      RampFog rfbb = ppbb.GetSetting<RampFog>();
+
+      rf1.SetAllOverridesTo(true);
+      rf2.SetAllOverridesTo(true);
+      rf3.SetAllOverridesTo(true);
+      rf4.SetAllOverridesTo(true);
+      rf5.SetAllOverridesTo(true);
+      rf6.SetAllOverridesTo(true);
+      // Winter
+      rf1.fogColorStart.value = new Color32(225, 225, 225, 0);
+      rf1.fogColorMid.value = new Color32(160, 207, 255, 50);
+      rf1.fogColorEnd.value = new Color32(135, 150, 200, 150);
+      rf1.fogHeightStart.value = 0;
+      rf1.fogHeightEnd.value = 100;
+      rf1.fogHeightIntensity.value = 0;
+      rf1.fogIntensity.value = 0.85f;
+      rf1.fogOne.value = 0.1f;
+      rf1.fogPower.value = 1f;
+      rf1.fogZero.value = -0.01f;
+      rf1.skyboxStrength.value = 0f;
+      // Fantasy
+      rf2.fogColorStart.value = new Color32(229, 164, 203, 0);
+      rf2.fogColorMid.value = new Color32(127, 45, 115, 75);
+      rf2.fogColorEnd.value = new Color32(89, 26, 66, 150);
+      rf2.fogHeightStart.value = 0;
+      rf2.fogHeightEnd.value = 100;
+      rf2.fogHeightIntensity.value = 0;
+      rf2.fogIntensity.value = 0.85f;
+      rf2.fogOne.value = 0.169f;
+      rf2.fogPower.value = 1f;
+      rf2.fogZero.value = -0.012f;
+      rf2.skyboxStrength.value = 0.05f;
+      // Auburn
+      rf3.fogColorStart.value = new Color32(249, 234, 225, 0);
+      rf3.fogColorMid.value = new Color32(204, 139, 134, 100);
+      rf3.fogColorEnd.value = new Color32(125, 79, 80, 255);
+      rf3.fogHeightStart.value = 0;
+      rf3.fogHeightEnd.value = 100;
+      rf3.fogHeightIntensity.value = 0;
+      rf3.fogIntensity.value = 0.55f;
+      rf3.fogOne.value = 0.169f;
+      rf3.fogPower.value = 1;
+      rf3.fogZero.value = -0.01f;
+      rf3.skyboxStrength.value = 0f;
+      // Afternoon
+      rf4.fogColorStart.value = new Color32(254, 255, 225, 0);
+      rf4.fogColorMid.value = new Color32(252, 253, 196, 50);
+      rf4.fogColorEnd.value = new Color32(14, 212, 255, 150);
+      rf4.fogHeightStart.value = 0;
+      rf4.fogHeightEnd.value = 100;
+      rf4.fogHeightIntensity.value = 0;
+      rf4.fogIntensity.value = 0.5f;
+      rf4.fogOne.value = 0.169f;
+      rf4.fogPower.value = 1.25f;
+      rf4.fogZero.value = -0.02f;
+      rf4.skyboxStrength.value = 0.05f;
+      // Placeholder
+      rf5.fogColorStart.value = new Color32(191, 191, 210, 0);
+      rf5.fogColorMid.value = new Color32(112, 112, 150, 100);
+      rf5.fogColorEnd.value = new Color32(75, 50, 100, 200);
+      rf5.fogHeightStart.value = 0;
+      rf5.fogHeightEnd.value = 100;
+      rf5.fogHeightIntensity.value = 0;
+      rf5.fogIntensity.value = 0.75f;
+      rf5.fogOne.value = 0.1f;
+      rf5.fogPower.value = 1f;
+      rf5.fogZero.value = -0.01f;
+      rf5.skyboxStrength.value = 0f;
+      // Midnight Dreary
+      rf6.fogColorStart.value = new Color32(169, 188, 208, 0);
+      rf6.fogColorMid.value = new Color32(68, 104, 116, 75);
+      rf6.fogColorEnd.value = new Color32(55, 63, 81, 200);
+      rf6.fogHeightStart.value = 0;
+      rf6.fogHeightEnd.value = 100;
+      rf6.fogHeightIntensity.value = 0;
+      rf6.fogIntensity.value = 1f;
+      rf6.fogOne.value = 0.1f;
+      rf6.fogPower.value = 1.2f;
+      rf6.fogZero.value = -0.01f;
+      rf6.skyboxStrength.value = 0f;
+
       On.RoR2.SceneDirector.Start += SceneDirector_Start;
     }
 
@@ -274,35 +291,10 @@ namespace CoolerStages
           Material testDetailMatAlt = themeMaterialsAlt[1];
           Material testDetailMat2Alt = themeMaterialsAlt[2];
           Material testDetailMat3Alt = themeMaterialsAlt[3];
-          /*
-          int idx3 = rng.Next(normals.Count);
-          int idx4 = rng.Next(blues.Count);
-          int idx5 = rng.Next(greens.Count);
-          int idx6 = rng.Next(reds.Count);
-          Texture2D normal = normals[idx3];
-          Texture2D blue = blues[idx4];
-          Texture2D green = greens[idx5];
-          Texture2D red = reds[idx6];
 
-          Debug.LogWarning($"Normal: {normal}");
-          Debug.LogWarning($"Blue: {blue}");
-          Debug.LogWarning($"Green: {green}");
-          Debug.LogWarning($"Red: {red}");
-
-          testTerrainMat.SetTexture("_NormalTex", normal);
-          testTerrainMat.SetTexture("_BlueChannelTex", blue);
-          testTerrainMat.SetTexture("_GreenChannelTex", green);
-          testTerrainMat.SetTexture("_RedChannelSideTex", red);
-          testTerrainMat.SetTexture("_RedChannelTopTex", red);
-
-          testTerrainMatAlt.SetTexture("_NormalTex", normal);
-          testTerrainMatAlt.SetTexture("_BlueChannelTex", blue);
-          testTerrainMatAlt.SetTexture("_GreenChannelTex", green);
-          testTerrainMatAlt.SetTexture("_RedChannelSideTex", red);
-          testTerrainMatAlt.SetTexture("_RedChannelTopTex", red);
-          */
-          int idx7 = rng.Next(themeProfiles.Count);
-          PostProcessProfile testProfile = themeProfiles[idx7];
+          List<PostProcessProfile> profiles = new List<PostProcessProfile> { pp1, pp2, pp3, pp4, pp5, pp6 };
+          int idx7 = rng.Next(profiles.Count);
+          PostProcessProfile testProfile = profiles[idx7];
 
           if (sceneName != "moon2")
             volume.profile = testProfile;
@@ -313,35 +305,28 @@ namespace CoolerStages
           if (sun)
           {
             Light mainLight = sun.GetComponent<Light>();
-            Color.RGBToHSV(testFog.fogColorEnd, out float fogHue, out float fogSaturation, out float fogValue);
-            Color.RGBToHSV(mainLight.color, out float lightHue, out float lightSaturation, out float lightValue);
-
-            if (sceneName == "wispgraveyard" || sceneName == "ancientloft")
+            if (testProfile.name == "Midnight Dreary")
+              mainLight.color = new Color(testFog.fogColorStart.value.r + 0.1f, testFog.fogColorStart.value.g + 0.1f, testFog.fogColorStart.value.b + 0.1f, 1f);
+            else
+              mainLight.color = new Color(testFog.fogColorStart.value.r, testFog.fogColorStart.value.g, testFog.fogColorStart.value.b, 1f);
+            if (sceneName == "lakes" || sceneName == "wispgraveyard" || sceneName == "ancientloft" || sceneName == "golemplains" || sceneName == "golemplains2" || sceneName == "goolake")
             {
-              mainLight.color = new Color(testFog.fogColorEnd.value.a, testFog.fogColorEnd.value.g, testFog.fogColorEnd.value.b, 1f);
-              mainLight.color = BrightenColor(mainLight.color, 0.05f);
               SetAmbientLight ambLight = volume.GetComponent<SetAmbientLight>();
-              ambLight.ambientIntensity = 1f;
+              ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+              ambLight.ambientIntensity = 0.75f;
               ambLight.ambientSkyColor = Color.gray;
               ambLight.ApplyLighting();
               lightColor = mainLight.color;
             }
             else
             {
-              mainLight.color = Color.HSVToRGB(fogHue, lightSaturation, lightValue);
-              mainLight.color = BrightenColor(mainLight.color, 0.1f);
               SetAmbientLight ambLight = mainLight.gameObject.AddComponent<SetAmbientLight>();
               ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
               ambLight.setAmbientLightColor = true;
-              if (sceneName == "dampcavesimple")
-                ambLight.ambientIntensity = 0.75f;
-              else
-                ambLight.ambientIntensity = 0.5f;
-              ambLight.ambientSkyColor = mainLight.color;
+              ambLight.ambientIntensity = 0.75f;
+              ambLight.ambientSkyColor = Color.gray;
               ambLight.ApplyLighting();
-              lightColor = mainLight.color;
             }
-
             mainLight.shadowStrength = 0.75f;
 
             bool isBright;
@@ -360,12 +345,12 @@ namespace CoolerStages
             if (isBright)
             {
               if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
-                mainLight.intensity = 1f;
+                mainLight.intensity = 0.75f;
               else if (isAnnoyingTerrain && testProfile.name.Contains("void"))
-                mainLight.intensity = 1.5f;
+                mainLight.intensity = 1.25f;
               else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
               {
-                mainLight.intensity = testTerrainMatAlt.name.Contains("snowy") ? 0.5f : 1f;
+                mainLight.intensity = testTerrainMatAlt.name.Contains("snowy") ? 0.75f : 1f;
                 mainLight.shadowStrength = 0.5f;
               }
               else
@@ -374,15 +359,25 @@ namespace CoolerStages
             else
             {
               if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
-                mainLight.intensity = 2f;
+                mainLight.intensity = 1.5f;
               else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
               {
                 mainLight.intensity = 2f;
                 mainLight.shadowStrength = 0.5f;
               }
               else
-                mainLight.intensity = 1.25f;
+                mainLight.intensity = 1f;
             }
+
+            if (sceneName == "frozenwall")
+              mainLight.intensity = 1f;
+
+            if (testProfile.name == "Midnight Dreary")
+            {
+              mainLight.intensity *= 1.25f;
+              mainLight.shadowStrength = 0.5f;
+            }
+
             if (sceneName == "goolake" || sceneName == "frozenwall")
             {
               Light sunLight2 = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
@@ -411,6 +406,9 @@ namespace CoolerStages
 
             switch (sceneName)
             {
+              case "lakes":
+                Stage1.Falls(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt, mainLight.color);
+                break;
               case "blackbeach":
                 Stage1.Roost1(testTerrainMat, testDetailMat, testDetailMat2);
                 break;
@@ -430,6 +428,9 @@ namespace CoolerStages
                 Stage2.Aqueduct(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
                 break;
               case "ancientloft":
+                GameObject deepFog = GameObject.Find("DeepFog");
+                if (deepFog)
+                  deepFog.SetActive(false);
                 Stage2.Aphelian(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
                 break;
               case "foggyswamp":
@@ -442,6 +443,7 @@ namespace CoolerStages
                 Stage3.Acres(testTerrainMat, testDetailMat, testDetailMat2);
                 break;
               case "sulfurpools":
+                GameObject.Find("SPCavePP").SetActive(false);
                 GameObject.Find("CameraRelative").transform.GetChild(1).gameObject.SetActive(false);
                 Stage3.Pools(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
                 break;
@@ -452,6 +454,9 @@ namespace CoolerStages
                 Stage4.Sirens(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
                 break;
               case "dampcavesimple":
+                GameObject camera = GameObject.Find("Main Camera(Clone)");
+                if (camera)
+                  camera.transform.GetChild(0).GetComponent<PostProcessLayer>().breakBeforeColorGrading = true;
                 if (testTerrainMatAlt.name.Contains("Snowy"))
                   Stage4.Abyssal(testTerrainMatAlt, testDetailMat3Alt, testDetailMatAlt, testDetailMat2Alt);
                 else
@@ -461,7 +466,7 @@ namespace CoolerStages
                   GameObject.Find("DCPPInTunnels").SetActive(false);
                 break;
               case "skymeadow":
-                Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2);
+                Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
                 break;
               case "moon2":
                 Transform es = GameObject.Find("EscapeSequenceController").transform.GetChild(0);

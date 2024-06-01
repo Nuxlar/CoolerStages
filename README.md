@@ -2,7 +2,7 @@
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
-Randomzied, 10 material themes and 6 post processing profiles leading to around 60 theme combos per stage for stages 1-6, doesn't work on modded stages.
+Randomzied, 9 material themes and 6 custom post processing profiles for stages 1-6, doesn't work on modded stages.
 
 If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'll give a new randomized theme.
 
@@ -12,7 +12,30 @@ Stage materials and post process profile print to the console on stage load. `al
 
 [StageAesthetic](https://thunderstore.io/package/HIFU/StageAesthetic/) by HIFU
 
+## Screenshots
+
+![dreary](https://i.ibb.co/9twGH5Z/cs1.png)
+
+![fantasy](https://i.ibb.co/qdgw1kX/cs2.png)
+
+![auburn](https://i.ibb.co/Rcd2WHM/cs3.png)
+
+![winter](https://i.ibb.co/NWVnW4c/cs4.png)
+
+![afternoon](https://i.ibb.co/bdTNxc8/cs5.png)
+
 ## Changelog
+
+**1.9.0**
+
+- Removed vanilla post processing themes
+- Removed Sky Meadow material theme
+- Removed grass from stages
+- Added Verdant Falls to list
+- Added Void Sky Meadow material theme
+- Added 6 custom post processing profiles
+- Re-did dynamic lighting
+- Fixed material applying to moon godrays
 
 **1.8.3**
 

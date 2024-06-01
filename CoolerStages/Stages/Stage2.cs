@@ -61,6 +61,10 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
+                        }
                         if (meshBase.name.Contains("Terrain") && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
                         if (meshBase.name.Contains("SandDune") && renderer.sharedMaterial)
@@ -104,6 +108,10 @@ namespace CoolerStages
                         {
                             if ((meshParent.name.Contains("TempleTop") && meshBase.name.Contains("RuinBlock") || meshBase.name.Contains("GPRuinBlockQuarter")) && renderer.sharedMaterial)
                                 renderer.sharedMaterial = detailMat2;
+                        }
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                        {
+                            GameObject.Destroy(meshBase);
                         }
                         if (meshBase.name.Contains("CirclePot"))
                             renderer.sharedMaterials = new Material[3] { terrainMat, detailMat3, terrainMat };
