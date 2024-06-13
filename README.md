@@ -2,9 +2,11 @@
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
-Randomzied, 9 material themes and 6 custom post processing profiles for stages 1-6, doesn't work on modded stages.
+Randomized, 9 material themes and 6 custom post processing profiles for stages 1-6, doesn't work on modded stages.
 
-If you don't like the variant, `set_scene sceneName` (with DebugToolkit) and it'll give a new randomized theme.
+Configurable, can disable each custom post processing profile. Disabling all of the profiles will break the mod.
+
+If you don't like the variant, `set_scene sceneName` (using the mod DebugToolkit) and it'll give a new randomized theme.
 
 Stage materials and post process profile print to the console on stage load. `alt + ctrl + ~` to open the console
 
@@ -25,6 +27,11 @@ Stage materials and post process profile print to the console on stage load. `al
 ![afternoon](https://i.ibb.co/bdTNxc8/cs5.png)
 
 ## Changelog
+
+**1.9.1**
+
+- Tweaked profiles to stand out more from each other
+- Added config for disabling profiles
 
 **1.9.0**
 

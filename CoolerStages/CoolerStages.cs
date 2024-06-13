@@ -1,4 +1,5 @@
 using BepInEx;
+using BepInEx.Configuration;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.0")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.1")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -104,6 +105,14 @@ namespace CoolerStages
       "moon2"
 };
 
+    public static ConfigEntry<bool> enableWinter;
+    public static ConfigEntry<bool> enableFantasy;
+    public static ConfigEntry<bool> enableAuburn;
+    public static ConfigEntry<bool> enableAfternoon;
+    public static ConfigEntry<bool> enableDrowned;
+    public static ConfigEntry<bool> enableDreary;
+    private static ConfigFile CSConfig { get; set; }
+
     /*
       Ancient Loft
       Temple Material
@@ -129,6 +138,14 @@ namespace CoolerStages
 
     public void Awake()
     {
+      CSConfig = new ConfigFile(Paths.ConfigPath + "\\com.Nuxlar.CoolerStages.cfg", true);
+      enableWinter = CSConfig.Bind<bool>("General", "Enable Winter Profile", true, "White and Foggy.");
+      enableFantasy = CSConfig.Bind<bool>("General", "Enable Fanstasy Profile", true, "Pink");
+      enableAuburn = CSConfig.Bind<bool>("General", "Enable Auburn Profile", true, "Red-ish Brown.");
+      enableAfternoon = CSConfig.Bind<bool>("General", "Enable Afternoon Profile", true, "Bright, Sunny Blue Skies.");
+      enableDrowned = CSConfig.Bind<bool>("General", "Enable Drowned Profile", true, "Soft Purple/Blue.");
+      enableDreary = CSConfig.Bind<bool>("General", "Enable Dreary Profile", true, "Dark, Midnight Blue.");
+
       ruinTerrain.color = new Color(0.701f, 0.623f, 0.403f, 1);
       ruinTerrain.SetTexture("_SplatmapTex", null);
       ruinTerrain.SetTexture("_NormalTex", rockNormal);
@@ -168,78 +185,87 @@ namespace CoolerStages
       rf4.SetAllOverridesTo(true);
       rf5.SetAllOverridesTo(true);
       rf6.SetAllOverridesTo(true);
+      /*
+           fog.fogColorStart.value = new Color32(127, 127, 153, 25);
+            fog.fogColorMid.value = new Color32(0, 106, 145, 150);
+            fog.fogColorEnd.value = new Color32(0, 115, 119, 255);
+            fog.fogZero.value = -0.01f;
+            fog.fogOne.value = 0.15f;
+            fog.fogPower.value = 2f;
+            fog.skyboxStrength.value = 0.1f;
+      */
       // Winter
-      rf1.fogColorStart.value = new Color32(225, 225, 225, 0);
-      rf1.fogColorMid.value = new Color32(160, 207, 255, 50);
-      rf1.fogColorEnd.value = new Color32(135, 150, 200, 150);
+      rf1.fogColorStart.value = new Color32(225, 225, 225, 15);
+      rf1.fogColorMid.value = new Color32(160, 207, 255, 150);
+      rf1.fogColorEnd.value = new Color32(135, 150, 200, 255);
       rf1.fogHeightStart.value = 0;
       rf1.fogHeightEnd.value = 100;
       rf1.fogHeightIntensity.value = 0;
-      rf1.fogIntensity.value = 0.85f;
-      rf1.fogOne.value = 0.1f;
-      rf1.fogPower.value = 1f;
+      rf1.fogIntensity.value = 0.75f;
+      rf1.fogOne.value = 0.15f;
+      rf1.fogPower.value = 1.5f;
       rf1.fogZero.value = -0.01f;
-      rf1.skyboxStrength.value = 0f;
+      rf1.skyboxStrength.value = 0.1f;
       // Fantasy
-      rf2.fogColorStart.value = new Color32(229, 164, 203, 0);
-      rf2.fogColorMid.value = new Color32(127, 45, 115, 75);
-      rf2.fogColorEnd.value = new Color32(89, 26, 66, 150);
+      rf2.fogColorStart.value = new Color32(229, 164, 203, 15);
+      rf2.fogColorMid.value = new Color32(175, 120, 120, 125);
+      rf2.fogColorEnd.value = new Color32(150, 75, 100, 255);
       rf2.fogHeightStart.value = 0;
       rf2.fogHeightEnd.value = 100;
       rf2.fogHeightIntensity.value = 0;
-      rf2.fogIntensity.value = 0.85f;
-      rf2.fogOne.value = 0.169f;
-      rf2.fogPower.value = 1f;
-      rf2.fogZero.value = -0.012f;
-      rf2.skyboxStrength.value = 0.05f;
+      rf2.fogIntensity.value = 1f;
+      rf2.fogOne.value = 0.15f;
+      rf2.fogPower.value = 2f;
+      rf2.fogZero.value = -0.01f;
+      rf2.skyboxStrength.value = 0.1f;
       // Auburn
-      rf3.fogColorStart.value = new Color32(249, 234, 225, 0);
-      rf3.fogColorMid.value = new Color32(204, 139, 134, 100);
-      rf3.fogColorEnd.value = new Color32(125, 79, 80, 255);
+      rf3.fogColorStart.value = new Color32(214, 154, 152, 20); // 249,210,200
+      rf3.fogColorMid.value = new Color32(130, 73, 69, 125); // 204,139,134
+      rf3.fogColorEnd.value = new Color32(115, 47, 44, 225); // 125,79,80
       rf3.fogHeightStart.value = 0;
       rf3.fogHeightEnd.value = 100;
       rf3.fogHeightIntensity.value = 0;
-      rf3.fogIntensity.value = 0.55f;
-      rf3.fogOne.value = 0.169f;
-      rf3.fogPower.value = 1;
+      rf3.fogIntensity.value = 1f;
+      rf3.fogOne.value = 0.15f;
+      rf3.fogPower.value = 2;
       rf3.fogZero.value = -0.01f;
-      rf3.skyboxStrength.value = 0f;
+      rf3.skyboxStrength.value = 0.1f;
       // Afternoon
-      rf4.fogColorStart.value = new Color32(254, 255, 225, 0);
-      rf4.fogColorMid.value = new Color32(252, 253, 196, 50);
-      rf4.fogColorEnd.value = new Color32(14, 212, 255, 150);
+      rf4.fogColorStart.value = new Color32(255, 255, 225, 25);
+      rf4.fogColorMid.value = new Color32(252, 253, 196, 150);
+      rf4.fogColorEnd.value = new Color32(14, 212, 255, 255);
       rf4.fogHeightStart.value = 0;
       rf4.fogHeightEnd.value = 100;
       rf4.fogHeightIntensity.value = 0;
       rf4.fogIntensity.value = 0.5f;
-      rf4.fogOne.value = 0.169f;
-      rf4.fogPower.value = 1.25f;
-      rf4.fogZero.value = -0.02f;
-      rf4.skyboxStrength.value = 0.05f;
+      rf4.fogOne.value = 0.2f;
+      rf4.fogPower.value = 2f;
+      rf4.fogZero.value = 0f;
+      rf4.skyboxStrength.value = 0.1f;
       // Placeholder
-      rf5.fogColorStart.value = new Color32(191, 191, 210, 0);
-      rf5.fogColorMid.value = new Color32(112, 112, 150, 100);
-      rf5.fogColorEnd.value = new Color32(75, 50, 100, 200);
+      rf5.fogColorStart.value = new Color32(171, 151, 191, 15);
+      rf5.fogColorMid.value = new Color32(120, 120, 175, 150);
+      rf5.fogColorEnd.value = new Color32(100, 75, 150, 255);
       rf5.fogHeightStart.value = 0;
       rf5.fogHeightEnd.value = 100;
       rf5.fogHeightIntensity.value = 0;
-      rf5.fogIntensity.value = 0.75f;
-      rf5.fogOne.value = 0.1f;
-      rf5.fogPower.value = 1f;
+      rf5.fogIntensity.value = 0.9f;
+      rf5.fogOne.value = 0.15f;
+      rf5.fogPower.value = 1.75f;
       rf5.fogZero.value = -0.01f;
-      rf5.skyboxStrength.value = 0f;
+      rf5.skyboxStrength.value = 0.1f;
       // Midnight Dreary
-      rf6.fogColorStart.value = new Color32(169, 188, 208, 0);
-      rf6.fogColorMid.value = new Color32(68, 104, 116, 75);
-      rf6.fogColorEnd.value = new Color32(55, 63, 81, 200);
+      rf6.fogColorStart.value = new Color32(129, 148, 168, 25);
+      rf6.fogColorMid.value = new Color32(68, 104, 116, 150);
+      rf6.fogColorEnd.value = new Color32(55, 63, 81, 255);
       rf6.fogHeightStart.value = 0;
       rf6.fogHeightEnd.value = 100;
       rf6.fogHeightIntensity.value = 0;
       rf6.fogIntensity.value = 1f;
-      rf6.fogOne.value = 0.1f;
-      rf6.fogPower.value = 1.2f;
-      rf6.fogZero.value = -0.01f;
-      rf6.skyboxStrength.value = 0f;
+      rf6.fogOne.value = 0.15f;
+      rf6.fogPower.value = 1.75f;
+      rf6.fogZero.value = 0f;
+      rf6.skyboxStrength.value = 0.1f;
 
       On.RoR2.SceneDirector.Start += SceneDirector_Start;
     }
@@ -292,7 +318,21 @@ namespace CoolerStages
           Material testDetailMat2Alt = themeMaterialsAlt[2];
           Material testDetailMat3Alt = themeMaterialsAlt[3];
 
-          List<PostProcessProfile> profiles = new List<PostProcessProfile> { pp1, pp2, pp3, pp4, pp5, pp6 };
+          List<PostProcessProfile> profiles = new List<PostProcessProfile>();
+
+          if (enableWinter.Value)
+            profiles.Add(pp1);
+          if (enableFantasy.Value)
+            profiles.Add(pp2);
+          if (enableAuburn.Value)
+            profiles.Add(pp3);
+          if (enableAfternoon.Value)
+            profiles.Add(pp4);
+          if (enableDrowned.Value)
+            profiles.Add(pp5);
+          if (enableDreary.Value)
+            profiles.Add(pp6);
+
           int idx7 = rng.Next(profiles.Count);
           PostProcessProfile testProfile = profiles[idx7];
 
