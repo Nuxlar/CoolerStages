@@ -28,6 +28,13 @@ Stage materials and post process profile print to the console on stage load. `al
 
 ## Changelog
 
+**1.9.2**
+
+- Reduces red on Auburn profile
+- Reduces pink on Fantasy profile
+- Reduces skybox visibility on Auburn profile
+- Increases light intensity on some stages
+
 **1.9.1**
 
 - Tweaked profiles to stand out more from each other

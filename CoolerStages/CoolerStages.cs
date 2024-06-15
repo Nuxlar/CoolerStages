@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.1")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.2")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -208,8 +208,8 @@ namespace CoolerStages
       rf1.skyboxStrength.value = 0.1f;
       // Fantasy
       rf2.fogColorStart.value = new Color32(229, 164, 203, 15);
-      rf2.fogColorMid.value = new Color32(175, 120, 120, 125);
-      rf2.fogColorEnd.value = new Color32(150, 75, 100, 255);
+      rf2.fogColorMid.value = new Color32(145, 120, 120, 125);
+      rf2.fogColorEnd.value = new Color32(120, 75, 100, 225);
       rf2.fogHeightStart.value = 0;
       rf2.fogHeightEnd.value = 100;
       rf2.fogHeightIntensity.value = 0;
@@ -219,9 +219,9 @@ namespace CoolerStages
       rf2.fogZero.value = -0.01f;
       rf2.skyboxStrength.value = 0.1f;
       // Auburn
-      rf3.fogColorStart.value = new Color32(214, 154, 152, 20); // 249,210,200
-      rf3.fogColorMid.value = new Color32(130, 73, 69, 125); // 204,139,134
-      rf3.fogColorEnd.value = new Color32(115, 47, 44, 225); // 125,79,80
+      rf3.fogColorStart.value = new Color32(190, 154, 150, 15); // 249,210,200
+      rf3.fogColorMid.value = new Color32(110, 73, 69, 100); // 204,139,134
+      rf3.fogColorEnd.value = new Color32(90, 47, 44, 225); // 125,79,80
       rf3.fogHeightStart.value = 0;
       rf3.fogHeightEnd.value = 100;
       rf3.fogHeightIntensity.value = 0;
@@ -229,7 +229,7 @@ namespace CoolerStages
       rf3.fogOne.value = 0.15f;
       rf3.fogPower.value = 2;
       rf3.fogZero.value = -0.01f;
-      rf3.skyboxStrength.value = 0.1f;
+      rf3.skyboxStrength.value = 0f;
       // Afternoon
       rf4.fogColorStart.value = new Color32(255, 255, 225, 25);
       rf4.fogColorMid.value = new Color32(252, 253, 196, 150);
@@ -385,7 +385,7 @@ namespace CoolerStages
             if (isBright)
             {
               if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
-                mainLight.intensity = 0.75f;
+                mainLight.intensity = 1f;
               else if (isAnnoyingTerrain && testProfile.name.Contains("void"))
                 mainLight.intensity = 1.25f;
               else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
