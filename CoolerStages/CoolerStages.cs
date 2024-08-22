@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.2")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.3")]
 
   public class CoolerStages : BaseUnityPlugin
   {
@@ -61,13 +61,14 @@ namespace CoolerStages
     private static readonly Material bazaarDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
     private static readonly Material bazaarDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/mysteryspace/matMSObeliskHeart.mat").WaitForCompletion();
 
-    private static readonly Material poolsTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/sulfurpools/matSPGround.mat").WaitForCompletion();
-    private static readonly Material rpdTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/Base/frozenwall/matFwTerrainFloor.mat").WaitForCompletion();
-    private static readonly Material forestTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/snowyforest/matSFGround.mat").WaitForCompletion();
+    private static readonly Material verdantTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLTerrainStone.mat").WaitForCompletion();
+    private static readonly Material verdantDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLRocks.mat").WaitForCompletion();
+    private static readonly Material verdantDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLShip.mat").WaitForCompletion();
+    private static readonly Material verdantDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLGVine.mat").WaitForCompletion();
 
     private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
+      new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
       new Material[] { smSimTerrainMat, smSimDetailMat, smSimDetailMat2, smSimtDetailMat3 },
-      new Material[] { nightTerrainMat, nightDetailMat, nightDetailMat2, nightDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
       new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
       new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 },
@@ -78,7 +79,7 @@ namespace CoolerStages
     };
 
     private static readonly List<Material[]> themeMaterials2 = new List<Material[]> {
-      new Material[] { nightTerrainMat2, nightDetailMat, nightDetailMat2, nightDetailMat3 },
+      new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
       new Material[] { danTerrain, danDetail, danDetail2, danDetail3 },
       new Material[] { ruinTerrain, ruinDetail, ruinDetail2, ruinDetail3 },
       new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
@@ -207,7 +208,7 @@ namespace CoolerStages
       rf1.fogZero.value = -0.01f;
       rf1.skyboxStrength.value = 0.1f;
       // Fantasy
-      rf2.fogColorStart.value = new Color32(229, 164, 203, 15);
+      rf2.fogColorStart.value = new Color32(229, 164, 203, 10);
       rf2.fogColorMid.value = new Color32(145, 120, 120, 125);
       rf2.fogColorEnd.value = new Color32(120, 75, 100, 225);
       rf2.fogHeightStart.value = 0;
@@ -221,7 +222,7 @@ namespace CoolerStages
       // Auburn
       rf3.fogColorStart.value = new Color32(190, 154, 150, 15); // 249,210,200
       rf3.fogColorMid.value = new Color32(110, 73, 69, 100); // 204,139,134
-      rf3.fogColorEnd.value = new Color32(90, 47, 44, 225); // 125,79,80
+      rf3.fogColorEnd.value = new Color32(90, 47, 44, 200); // 125,79,80
       rf3.fogHeightStart.value = 0;
       rf3.fogHeightEnd.value = 100;
       rf3.fogHeightIntensity.value = 0;
@@ -231,21 +232,21 @@ namespace CoolerStages
       rf3.fogZero.value = -0.01f;
       rf3.skyboxStrength.value = 0f;
       // Afternoon
-      rf4.fogColorStart.value = new Color32(255, 255, 225, 25);
+      rf4.fogColorStart.value = new Color32(235, 235, 205, 25);
       rf4.fogColorMid.value = new Color32(252, 253, 196, 150);
-      rf4.fogColorEnd.value = new Color32(14, 212, 255, 255);
+      rf4.fogColorEnd.value = new Color32(14, 212, 255, 225);
       rf4.fogHeightStart.value = 0;
       rf4.fogHeightEnd.value = 100;
       rf4.fogHeightIntensity.value = 0;
       rf4.fogIntensity.value = 0.5f;
-      rf4.fogOne.value = 0.2f;
+      rf4.fogOne.value = 0.4f;
       rf4.fogPower.value = 2f;
       rf4.fogZero.value = 0f;
       rf4.skyboxStrength.value = 0.1f;
       // Placeholder
-      rf5.fogColorStart.value = new Color32(171, 151, 191, 15);
+      rf5.fogColorStart.value = new Color32(171, 151, 191, 25);
       rf5.fogColorMid.value = new Color32(120, 120, 175, 150);
-      rf5.fogColorEnd.value = new Color32(100, 75, 150, 255);
+      rf5.fogColorEnd.value = new Color32(100, 75, 150, 225);
       rf5.fogHeightStart.value = 0;
       rf5.fogHeightEnd.value = 100;
       rf5.fogHeightIntensity.value = 0;

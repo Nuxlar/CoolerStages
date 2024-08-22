@@ -24,9 +24,15 @@ Stage materials and post process profile print to the console on stage load. `al
 
 ![winter](https://i.ibb.co/NWVnW4c/cs4.png)
 
-![afternoon](https://i.ibb.co/bdTNxc8/cs5.png)
+![afternoon](https://i.ibb.co/kyyT4SL/verdant.png)
 
 ## Changelog
+
+**1.9.3**
+
+- Small tweaks to some post processing profiles
+- Adds "Verdant" material theme
+- Removes "Scorched" material theme
 
 **1.9.2**
 
