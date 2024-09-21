@@ -2,6 +2,8 @@
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
+### USE v1.9.3 FOR DOWNPATCHED GAMES
+
 Randomized, 9 material themes and 6 custom post processing profiles for stages 1-6, doesn't work on modded stages.
 
 Configurable, can disable each custom post processing profile. Disabling all of the profiles will break the mod.

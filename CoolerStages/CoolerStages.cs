@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CoolerStages
 {
-  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "1.9.3")]
+  [BepInPlugin("com.Nuxlar.CoolerStages", "CoolerStages", "2.0.0")]
 
   public class CoolerStages : BaseUnityPlugin
   {
