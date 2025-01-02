@@ -61,10 +61,10 @@ namespace CoolerStages
     private static readonly Material bazaarDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/Base/intro/matColonyShipStandard.mat").WaitForCompletion();
     private static readonly Material bazaarDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/Base/mysteryspace/matMSObeliskHeart.mat").WaitForCompletion();
 
-    private static readonly Material verdantTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLTerrainStone.mat").WaitForCompletion();
-    private static readonly Material verdantDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLRocks.mat").WaitForCompletion();
-    private static readonly Material verdantDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLShip.mat").WaitForCompletion();
-    private static readonly Material verdantDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/CU8/lakes/matTLGVine.mat").WaitForCompletion();
+    private static readonly Material verdantTerrainMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLTerrainStone.mat").WaitForCompletion();
+    private static readonly Material verdantDetailMat = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLRocks.mat").WaitForCompletion();
+    private static readonly Material verdantDetailMat2 = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLShip.mat").WaitForCompletion();
+    private static readonly Material verdantDetailMat3 = Addressables.LoadAssetAsync<Material>("RoR2/DLC2/lakes/Assets/matTLGVine.mat").WaitForCompletion();
 
     private static readonly List<Material[]> themeMaterials1 = new List<Material[]> {
       new Material[] { verdantTerrainMat, verdantDetailMat, verdantDetailMat2, verdantDetailMat3 },
@@ -125,8 +125,8 @@ namespace CoolerStages
       _RedChannelTopTex RoR2/DLC1/ancientloft/texAncientLoft_BaseWhiteBrick.png
     */
 
-    private Texture2D tlCliffTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainCliff.tga").WaitForCompletion();
-    private Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainDirt.tga").WaitForCompletion();
+    private Texture2D tlCliffTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC2/lakes/Assets/texTLTerrainCliff.tga").WaitForCompletion();
+    private Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/DLC2/lakes/Assets/texTLTerrainDirt.tga").WaitForCompletion();
     private Texture2D rockNormal = Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texNormalBumpyRock.jpg").WaitForCompletion();
 
     PostProcessProfile pp1 = ScriptableObject.CreateInstance<PostProcessProfile>();
@@ -135,7 +135,7 @@ namespace CoolerStages
     PostProcessProfile pp4 = ScriptableObject.CreateInstance<PostProcessProfile>();
     PostProcessProfile pp5 = ScriptableObject.CreateInstance<PostProcessProfile>();
     PostProcessProfile pp6 = ScriptableObject.CreateInstance<PostProcessProfile>();
-    PostProcessProfile ppbb = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/ppSceneGolemplainsFoggy.asset").WaitForCompletion();
+    PostProcessProfile ppbb = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/Base/title/PostProcessing/ppSceneGolemplainsFoggy.asset").WaitForCompletion();
 
     public void Awake()
     {
