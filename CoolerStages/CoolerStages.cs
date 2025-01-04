@@ -88,6 +88,7 @@ namespace CoolerStages
     private System.Random rng = new System.Random();
     private static readonly string[] whitelistedMaps = new string[] {
       "lakes",
+      "lakesnight",
       "snowyforest",
       "blackbeach",
       "blackbeach2",
@@ -103,7 +104,9 @@ namespace CoolerStages
       "rootjungle",
       "dampcavesimple",
       "skymeadow",
-      "moon2"
+      // "moon2",
+      "village",
+      "villagenight",
 };
 
     public static ConfigEntry<bool> enableWinter;
@@ -277,6 +280,7 @@ namespace CoolerStages
       SceneInfo currentScene = SceneInfo.instance;
       if (currentScene && whitelistedMaps.Contains(sceneName))
       {
+        Debug.LogWarning("In whitelisted Map");
         PostProcessVolume volume = currentScene.GetComponent<PostProcessVolume>();
         if (!volume || !volume.isActiveAndEnabled)
         {
@@ -450,6 +454,15 @@ namespace CoolerStages
               case "lakes":
                 Stage1.Falls(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt, mainLight.color);
                 break;
+              case "lakesnight":
+                Stage1.NightFalls(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3Alt, mainLight.color);
+                break;
+              case "village":
+                Stage1.Shattered(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3);
+                break;
+              case "villagenight":
+                Stage1.NightShattered(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt, testDetailMat3);
+                break;
               case "blackbeach":
                 Stage1.Roost1(testTerrainMat, testDetailMat, testDetailMat2);
                 break;
@@ -509,34 +522,34 @@ namespace CoolerStages
               case "skymeadow":
                 Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
                 break;
-              case "moon2":
-                Transform es = GameObject.Find("EscapeSequenceController").transform.GetChild(0);
-                es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
-                es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
-                es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
+              //case "moon2":
+              //  Transform es = GameObject.Find("EscapeSequenceController").transform.GetChild(0);
+              //  es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
+              //  es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
+              //  es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
 
-                RampFog fog = volume.profile.GetSetting<RampFog>();
-                fog.fogIntensity.value = testFog.fogIntensity.value;
-                fog.fogPower.value = testFog.fogPower.value;
-                fog.fogZero.value = testFog.fogZero.value;
-                fog.fogOne.value = testFog.fogOne.value;
-                fog.fogColorStart.value = testFog.fogColorStart.value;
-                fog.fogColorMid.value = testFog.fogColorMid.value;
-                fog.fogColorEnd.value = testFog.fogColorEnd.value;
-                fog.skyboxStrength.value = testFog.skyboxStrength.value;
+              //  RampFog fog = volume.profile.GetSetting<RampFog>();
+              //  fog.fogIntensity.value = testFog.fogIntensity.value;
+              //  fog.fogPower.value = testFog.fogPower.value;
+              //  fog.fogZero.value = testFog.fogZero.value;
+              //  fog.fogOne.value = testFog.fogOne.value;
+              //  fog.fogColorStart.value = testFog.fogColorStart.value;
+              //  fog.fogColorMid.value = testFog.fogColorMid.value;
+              //  fog.fogColorEnd.value = testFog.fogColorEnd.value;
+              //  fog.skyboxStrength.value = testFog.skyboxStrength.value;
 
-                PostProcessVolume bruh = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<PostProcessVolume>();
-                bruh.weight = 0.28f;
-                HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
-                // 0.1138 0.1086 0.15 1
-                // 0.1012 0.1091 0.1226 1
-                bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
-                bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
-                if (testTerrainMat.name.Contains("Snowy"))
-                  Stage6.Moon(testTerrainMat, testDetailMat3, testDetailMat2, testDetailMat);
-                else
-                  Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
-                break;
+              //  PostProcessVolume bruh = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<PostProcessVolume>();
+              //  bruh.weight = 0.28f;
+              //  HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
+              //  // 0.1138 0.1086 0.15 1
+              //  // 0.1012 0.1091 0.1226 1
+              //  bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
+              //  bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
+              //  if (testTerrainMat.name.Contains("Snowy"))
+              //    Stage6.Moon(testTerrainMat, testDetailMat3, testDetailMat2, testDetailMat);
+              //  else
+              //    Stage6.Moon(testTerrainMat, testDetailMat, testDetailMat2, testDetailMat3);
+              //  break;
             }
           }
         }

@@ -7,16 +7,8 @@ namespace CoolerStages
 
         public static void Wetland(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3)
         {
-            Transform terrain = GameObject.Find("HOLDER: Hero Assets").transform;
-
             if (terrainMat && detailMat && detailMat2 && detailMat3)
             {
-                terrain.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-                terrain.GetChild(1).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-                terrain.GetChild(2).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-                terrain.GetChild(3).GetChild(2).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-                terrain.GetChild(6).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-                GameObject.Find("HOLDER: Ruin Pieces").transform.GetChild(6).gameObject.GetComponent<MeshRenderer>().sharedMaterial = detailMat;
                 MeshRenderer[] meshList = Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
                 foreach (MeshRenderer renderer in meshList)
                 {
@@ -30,9 +22,14 @@ namespace CoolerStages
                                 meshBase.transform.GetComponentInChildren<MeshRenderer>().sharedMaterial = detailMat;
                         }
 
+                        if (meshBase.name.Contains("Floor") || meshBase.name.Contains("Terrain"))
+                            renderer.sharedMaterial = terrainMat;
+
                         Transform meshParent = meshBase.transform.parent;
                         if (meshParent != null)
                         {
+                            if (meshBase.name.Contains("Mesh") && meshParent.name.Contains("Wall"))
+                                renderer.sharedMaterial = terrainMat;
                             if (meshBase.name.Contains("Mesh") && (meshParent.name.Contains("FSTree") || meshParent.name.Contains("FSRootBundle")))
                                 renderer.sharedMaterial = detailMat3;
                             if (meshBase.name.Contains("Mesh") && meshParent.name.Contains("FSRuinPillar"))

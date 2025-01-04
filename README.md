@@ -1,4 +1,9 @@
-# Cooler Stages
+# Cooler Stages Continued
+
+Continuation of the original Cooler Stages since Nuxlar stopped development of the mod.
+
+Currently a lot of the new DLC Stages are not yet included and the ones that are, are not as perfect as those by Nuxlar.
+I might add/improve them if I have the time.
 
 ### SUBMIT ANY ISSUES USING THE LINK ABOVE
 
@@ -16,6 +21,8 @@ Stage materials and post process profile print to the console on stage load. `al
 
 [StageAesthetic](https://thunderstore.io/package/HIFU/StageAesthetic/) by HIFU
 
+[Cooler Stages](https://github.com/Nuxlar/CoolerStages) by Nuxlar
+
 ## Screenshots
 
 ![dreary](https://i.ibb.co/9twGH5Z/cs1.png)
@@ -29,6 +36,11 @@ Stage materials and post process profile print to the console on stage load. `al
 ![afternoon](https://i.ibb.co/kyyT4SL/verdant.png)
 
 ## Changelog
+
+**2.0.0**
+
+- Fix for SoTS
+- Does not modify a lot of the new Stages
 
 **1.9.3**
 

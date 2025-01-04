@@ -28,4 +28,8 @@
       <HintPath>libs\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+ <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+   <Exec Command="copy /Y C:\Users\nicol\source\repos\CoolerStages\CoolerStages\bin\Release\netstandard2.1\CoolerStages.dll C:\Users\nicol\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Default\BepInEx\plugins\Nuxlar-CoolerStages" />
+ </Target>
 </Project>
