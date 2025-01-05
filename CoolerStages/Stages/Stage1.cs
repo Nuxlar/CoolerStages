@@ -103,9 +103,9 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
-                        if (meshBase.name.Contains("Terrain") || meshBase.name.Contains("Dune") || meshBase.name.Contains("InfectionMesh") || meshBase.name.Contains("GlassEgg") || meshBase.name.Contains("Coral"))
+                        if (meshBase.name.Contains("Terrain") || meshBase.name.Contains("Dune") || meshBase.name.Contains("Coral"))
                         {
-                            renderer.sharedMaterial = terrainMat;
+                            renderer.sharedMaterials = [terrainMat, terrainMat];
                         }
                         if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
                         {
@@ -113,14 +113,15 @@ namespace CoolerStages
                         }
                         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") ||  meshBase.name.Contains("Pebble") || meshBase.name.Contains("Detail")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
-                        if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("Chime") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("Gate")) && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("Chime") || meshBase.name.Contains("Gate")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat3;
+                        if ((meshBase.name.Contains("Pillar") || meshBase.name.Contains("Altar")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat2;
-                        if ((meshBase.name.Contains("Pillar") || meshBase.name.Contains("Cliff")) && renderer.sharedMaterial)
-                            renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("Arc") || meshBase.name.Contains("House")) && renderer.sharedMaterial)
-                            renderer.sharedMaterial = detailMat;
+                            renderer.sharedMaterials = [detailMat, terrainMat] ;
                     }
                 }
+                GameObject.Find("LVArc_StormOutlook").gameObject.GetComponent<MeshRenderer>().sharedMaterials = [terrainMat, detailMat];
             }
         }
 
@@ -134,9 +135,9 @@ namespace CoolerStages
                     GameObject meshBase = renderer.gameObject;
                     if (meshBase != null)
                     {
-                        if (meshBase.name.Contains("Terrain") || meshBase.name.Contains("Dune") || meshBase.name.Contains("InfectionMesh") || meshBase.name.Contains("GlassEgg") || meshBase.name.Contains("Coral"))
+                        if (meshBase.name.Contains("Terrain") || meshBase.name.Contains("Dune") || meshBase.name.Contains("Coral"))
                         {
-                            renderer.sharedMaterial = terrainMat;
+                            renderer.sharedMaterials = [terrainMat, terrainMat];
                         }
                         if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
                         {
@@ -144,14 +145,15 @@ namespace CoolerStages
                         }
                         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("Pebble") || meshBase.name.Contains("Detail")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
-                        if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("Chime") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("Gate")) && renderer.sharedMaterial)
+                        if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("Chime") || meshBase.name.Contains("Gate")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat3;
+                        if ((meshBase.name.Contains("Pillar") || meshBase.name.Contains("Altar")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat2;
-                        if ((meshBase.name.Contains("Pillar") || meshBase.name.Contains("Cliff")) && renderer.sharedMaterial)
-                            renderer.sharedMaterial = terrainMat;
                         if ((meshBase.name.Contains("Arc") || meshBase.name.Contains("House")) && renderer.sharedMaterial)
-                            renderer.sharedMaterial = detailMat;
+                            renderer.sharedMaterials = [detailMat, terrainMat];
                     }
                 }
+                GameObject.Find("LVArc_StormOutlook").gameObject.GetComponent<MeshRenderer>().sharedMaterials = [terrainMat, detailMat];
             }
         }
 
