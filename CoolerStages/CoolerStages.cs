@@ -85,7 +85,7 @@ namespace CoolerStages
       new Material[] { dcSimTerrainMat, dcSimDetailMat, dcSimDetailMat2, dcSimDetailMat3 }
     };
 
-        private System.Random rng = new System.Random();
+        private System.Random rng;
         private static readonly string[] whitelistedMaps = new string[] {
       "lakes",
       "lakesnight",
@@ -271,11 +271,16 @@ namespace CoolerStages
             rf6.fogZero.value = 0f;
             rf6.skyboxStrength.value = 0.1f;
 
+            rng = new System.Random();
+
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
         }
 
         private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
+            
+            int seed = (int)(RoR2.Run.instance.GetStartTimeUtc().Ticks ^ (long)(RoR2.Run.instance.stageClearCount << 16));
+            rng = new System.Random(seed);
             string sceneName = SceneManager.GetActiveScene().name;
             SceneInfo currentScene = SceneInfo.instance;
             if (currentScene && whitelistedMaps.Contains(sceneName))
@@ -523,33 +528,33 @@ namespace CoolerStages
                                 Stage5.SkyMeadow(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
                                 break;
                             case "moon2":
-                                GameObject[] sceneobjs = SceneManager.GetActiveScene().GetRootGameObjects();
-                                Transform es = sceneobjs[0].transform.GetChild(0);
-                                es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
-                                es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
-                                es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
-                                Debug.LogWarning("Set PP of EscapeSeqController");
+                                try
+                                {
+                                    GameObject[] sceneobjs = SceneManager.GetActiveScene().GetRootGameObjects();
+                                    Transform es = sceneobjs[0].transform.GetChild(0);
+                                    es.GetChild(0).GetComponent<PostProcessVolume>().priority = 10001;
+                                    es.GetChild(6).GetComponent<PostProcessVolume>().weight = 0.47f;
+                                    es.GetChild(6).GetComponent<PostProcessVolume>().sharedProfile.settings[0].active = false;
 
-                                RampFog fog = volume.sharedProfile.GetSetting<RampFog>();
-                                if (fog) { Debug.LogWarning("Found Fog"); }
-                                fog.fogIntensity.value = testFog.fogIntensity.value;
-                                fog.fogPower.value = testFog.fogPower.value;
-                                fog.fogZero.value = testFog.fogZero.value;
-                                fog.fogOne.value = testFog.fogOne.value;
-                                fog.fogColorStart.value = testFog.fogColorStart.value;
-                                fog.fogColorMid.value = testFog.fogColorMid.value;
-                                fog.fogColorEnd.value = testFog.fogColorEnd.value;
-                                fog.skyboxStrength.value = testFog.skyboxStrength.value;
-                                Debug.LogWarning("Set fog");
+                                    RampFog fog = volume.sharedProfile.GetSetting<RampFog>();
+                                    fog.fogIntensity.value = testFog.fogIntensity.value;
+                                    fog.fogPower.value = testFog.fogPower.value;
+                                    fog.fogZero.value = testFog.fogZero.value;
+                                    fog.fogOne.value = testFog.fogOne.value;
+                                    fog.fogColorStart.value = testFog.fogColorStart.value;
+                                    fog.fogColorMid.value = testFog.fogColorMid.value;
+                                    fog.fogColorEnd.value = testFog.fogColorEnd.value;
+                                    fog.skyboxStrength.value = testFog.skyboxStrength.value;
 
-                                PostProcessVolume bruh = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).Find("FX").GetChild(0).GetComponent<PostProcessVolume>();
-                                bruh.weight = 0.28f;
-                                HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
-                                // 0.1138 0.1086 0.15 1
-                                // 0.1012 0.1091 0.1226 1
-                                bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
-                                bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
-                                Debug.LogWarning("Set PP of GameplaySpace");
+                                    PostProcessVolume bruh = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).Find("FX").GetChild(0).GetComponent<PostProcessVolume>();
+                                    bruh.weight = 0.28f;
+                                    HookLightingIntoPostProcessVolume bruh2 = GameObject.Find("HOLDER: Gameplay Space").transform.GetChild(0).Find("Quadrant 4: Starting Temple").GetChild(0).Find("FX").GetChild(0).GetComponent<HookLightingIntoPostProcessVolume>();
+                                    // 0.1138 0.1086 0.15 1
+                                    // 0.1012 0.1091 0.1226 1
+                                    bruh2.overrideAmbientColor = new Color(0.4138f, 0.4086f, 0.45f, 1);
+                                    bruh2.overrideDirectionalColor = new Color(0.4012f, 0.4091f, 0.4226f, 1);
+                                }
+                                catch { Debug.LogError("Couldn't set one or more of the Materials for the Terrain. Please report to the mod maintainer on Thunderstore."); }
                                 if (testTerrainMat.name.Contains("Snowy"))
                                     Stage6.Moon(testTerrainMat, testDetailMat3, testDetailMat2, testDetailMat);
                                 else
