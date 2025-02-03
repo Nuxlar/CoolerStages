@@ -116,5 +116,10 @@ namespace CoolerStages
             }
         }
 
+        public static void Roost(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color grassColor)
+        {
+
+        }
+
     }
 }

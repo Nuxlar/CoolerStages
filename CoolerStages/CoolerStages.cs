@@ -355,87 +355,100 @@ namespace CoolerStages
                     if (sun)
                     {
                         Light mainLight = sun.GetComponent<Light>();
-                        if (testProfile.name == "Midnight Dreary")
-                            mainLight.color = new Color(testFog.fogColorStart.value.r + 0.1f, testFog.fogColorStart.value.g + 0.1f, testFog.fogColorStart.value.b + 0.1f, 1f);
-                        else
-                            mainLight.color = new Color(testFog.fogColorStart.value.r, testFog.fogColorStart.value.g, testFog.fogColorStart.value.b, 1f);
-                        if (sceneName == "lakes" || sceneName == "wispgraveyard" || sceneName == "ancientloft" || sceneName == "golemplains" || sceneName == "golemplains2" || sceneName == "goolake")
+                        if (mainLight)
                         {
-                            SetAmbientLight ambLight = volume.GetComponent<SetAmbientLight>();
-                            ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                            ambLight.ambientIntensity = 0.75f;
-                            ambLight.ambientSkyColor = Color.gray;
-                            ambLight.ApplyLighting();
-                            lightColor = mainLight.color;
-                        }
-                        else
-                        {
-                            SetAmbientLight ambLight = mainLight.gameObject.AddComponent<SetAmbientLight>();
-                            ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                            ambLight.setAmbientLightColor = true;
-                            ambLight.ambientIntensity = 0.75f;
-                            ambLight.ambientSkyColor = Color.gray;
-                            ambLight.ApplyLighting();
-                        }
-                        mainLight.shadowStrength = 0.75f;
-
-                        bool isBright;
-                        bool isAnnoyingTerrain;
-                        if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
-                        {
-                            isBright = IsBright(testTerrainMatAlt);
-                            isAnnoyingTerrain = testTerrainMatAlt.name.Contains("matDC");
-                        }
-                        else
-                        {
-                            isBright = IsBright(testTerrainMat);
-                            isAnnoyingTerrain = testTerrainMat.name.Contains("matDC");
-                        }
-
-                        if (isBright)
-                        {
-                            if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
-                                mainLight.intensity = 1f;
-                            else if (isAnnoyingTerrain && testProfile.name.Contains("void"))
-                                mainLight.intensity = 1.25f;
-                            else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
+                            if (testProfile.name == "Midnight Dreary")
+                                mainLight.color = new Color(testFog.fogColorStart.value.r + 0.1f, testFog.fogColorStart.value.g + 0.1f, testFog.fogColorStart.value.b + 0.1f, 1f);
+                            else
+                                mainLight.color = new Color(testFog.fogColorStart.value.r, testFog.fogColorStart.value.g, testFog.fogColorStart.value.b, 1f);
+                            if (sceneName == "lakes" || sceneName == "wispgraveyard" || sceneName == "ancientloft" || sceneName == "golemplains" || sceneName == "golemplains2" || sceneName == "goolake")
                             {
-                                mainLight.intensity = testTerrainMatAlt.name.Contains("snowy") ? 0.75f : 1f;
-                                mainLight.shadowStrength = 0.5f;
+                                SetAmbientLight ambLight = volume.GetComponent<SetAmbientLight>();
+                                if (ambLight)
+                                {
+                                    ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                                    ambLight.ambientIntensity = 0.75f;
+                                    ambLight.ambientSkyColor = Color.gray;
+                                    ambLight.ApplyLighting();
+                                }
+                                lightColor = mainLight.color;
                             }
                             else
-                                mainLight.intensity = 0.5f;
-                        }
-                        else
-                        {
-                            if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
-                                mainLight.intensity = 1.5f;
-                            else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
                             {
-                                mainLight.intensity = 2f;
-                                mainLight.shadowStrength = 0.5f;
+                                SetAmbientLight ambLight = mainLight.gameObject.AddComponent<SetAmbientLight>();
+                                if (ambLight)
+                                {
+                                    ambLight.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                                    ambLight.setAmbientLightColor = true;
+                                    ambLight.ambientIntensity = 0.75f;
+                                    ambLight.ambientSkyColor = Color.gray;
+                                    ambLight.ApplyLighting();
+                                }
+                            }
+                            mainLight.shadowStrength = 0.75f;
+
+                            bool isBright;
+                            bool isAnnoyingTerrain;
+                            if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
+                            {
+                                isBright = IsBright(testTerrainMatAlt);
+                                isAnnoyingTerrain = testTerrainMatAlt.name.Contains("matDC");
                             }
                             else
+                            {
+                                isBright = IsBright(testTerrainMat);
+                                isAnnoyingTerrain = testTerrainMat.name.Contains("matDC");
+                            }
+
+                            if (isBright)
+                            {
+                                if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
+                                    mainLight.intensity = 1f;
+                                else if (isAnnoyingTerrain && testProfile.name.Contains("void"))
+                                    mainLight.intensity = 1.25f;
+                                else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
+                                {
+                                    mainLight.intensity = testTerrainMatAlt.name.Contains("snowy") ? 0.75f : 1f;
+                                    mainLight.shadowStrength = 0.5f;
+                                }
+                                else
+                                    mainLight.intensity = 0.5f;
+                            }
+                            else
+                            {
+                                if (sceneName == "snowyforest" || sceneName == "skymeadow" || sceneName.Contains("blackbeach") || sceneName == "shipgraveyard")
+                                    mainLight.intensity = 1.5f;
+                                else if (sceneName == "dampcavesimple" || isAnnoyingTerrain)
+                                {
+                                    mainLight.intensity = 2f;
+                                    mainLight.shadowStrength = 0.5f;
+                                }
+                                else
+                                    mainLight.intensity = 1f;
+                            }
+
+                            if (sceneName == "frozenwall")
                                 mainLight.intensity = 1f;
-                        }
 
-                        if (sceneName == "frozenwall")
-                            mainLight.intensity = 1f;
+                            if (testProfile.name == "Midnight Dreary")
+                            {
+                                mainLight.intensity *= 1.25f;
+                                mainLight.shadowStrength = 0.5f;
+                            }
 
-                        if (testProfile.name == "Midnight Dreary")
-                        {
-                            mainLight.intensity *= 1.25f;
-                            mainLight.shadowStrength = 0.5f;
+                            if (sceneName == "goolake" || sceneName == "frozenwall")
+                            {
+                                Light sunLight2 = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
+                                if (sunLight2)
+                                {
+                                    sunLight2.color = mainLight.color;
+                                    sunLight2.intensity = mainLight.intensity;
+                                    sun.SetActive(false);
+                                    sun.name = "Fake Sun";
+                                }
+                            }
                         }
-
-                        if (sceneName == "goolake" || sceneName == "frozenwall")
-                        {
-                            Light sunLight2 = GameObject.Instantiate(GameObject.Find("Directional Light (SUN)")).GetComponent<Light>();
-                            sunLight2.color = mainLight.color;
-                            sunLight2.intensity = mainLight.intensity;
-                            sun.SetActive(false);
-                            sun.name = "Fake Sun";
-                        }
+                    
 
                         if (sceneName == "foggyswamp" || sceneName == "sulfurpools" || sceneName == "shipgraveyard" || sceneName == "dampcavesimple")
                         {
