@@ -107,8 +107,8 @@ namespace CoolerStages
       "skymeadow",
       "moon2",
       "village",
-      "villagenight"
-      //"helminthroost"
+      "villagenight",
+      "helminthroost"
 };
 
         public static ConfigEntry<bool> enableWinter;
@@ -117,6 +117,7 @@ namespace CoolerStages
         public static ConfigEntry<bool> enableAfternoon;
         public static ConfigEntry<bool> enableDrowned;
         public static ConfigEntry<bool> enableDreary;
+        public static ConfigEntry<bool> enableHelminthroost;
         private static ConfigFile CSConfig { get; set; }
 
         /*
@@ -145,12 +146,13 @@ namespace CoolerStages
         public void Awake()
         {
             CSConfig = new ConfigFile(Paths.ConfigPath + "\\com.Nuxlar.CoolerStages.cfg", true);
-            enableWinter = CSConfig.Bind<bool>("General", "Enable Winter Profile", true, "White and Foggy.");
-            enableFantasy = CSConfig.Bind<bool>("General", "Enable Fanstasy Profile", true, "Pink");
-            enableAuburn = CSConfig.Bind<bool>("General", "Enable Auburn Profile", true, "Red-ish Brown.");
-            enableAfternoon = CSConfig.Bind<bool>("General", "Enable Afternoon Profile", true, "Bright, Sunny Blue Skies.");
-            enableDrowned = CSConfig.Bind<bool>("General", "Enable Drowned Profile", true, "Soft Purple/Blue.");
-            enableDreary = CSConfig.Bind<bool>("General", "Enable Dreary Profile", true, "Dark, Midnight Blue.");
+            enableWinter = CSConfig.Bind<bool>("Profiles", "Enable Winter Profile", true, "White and Foggy.");
+            enableFantasy = CSConfig.Bind<bool>("Profiles", "Enable Fanstasy Profile", true, "Pink");
+            enableAuburn = CSConfig.Bind<bool>("Profiles", "Enable Auburn Profile", true, "Red-ish Brown.");
+            enableAfternoon = CSConfig.Bind<bool>("Profiles", "Enable Afternoon Profile", true, "Bright, Sunny Blue Skies.");
+            enableDrowned = CSConfig.Bind<bool>("Profiles", "Enable Drowned Profile", true, "Soft Purple/Blue.");
+            enableDreary = CSConfig.Bind<bool>("Profiles", "Enable Dreary Profile", true, "Dark, Midnight Blue.");
+            enableHelminthroost = CSConfig.Bind<bool>("Stages", "Enable Helminth Roost", true, "Dlc stage 5");
 
             ruinTerrain.color = new Color(0.701f, 0.623f, 0.403f, 1);
             ruinTerrain.SetTexture("_SplatmapTex", null);
@@ -285,9 +287,10 @@ namespace CoolerStages
             rng = new System.Random(seed);
             string sceneName = SceneManager.GetActiveScene().name;
             SceneInfo currentScene = SceneInfo.instance;
+            if (!enableHelminthroost.Value && sceneName == "helminthroost")
+                return;
             if (currentScene && whitelistedMaps.Contains(sceneName))
             {
-                Debug.LogWarning("In whitelisted Map");
                 PostProcessVolume volume = currentScene.GetComponent<PostProcessVolume>();
                 if (!volume || !volume.isActiveAndEnabled)
                 {
@@ -334,13 +337,13 @@ namespace CoolerStages
 
                     if (enableWinter.Value)
                         profiles.Add(pp1);
-                    if (enableFantasy.Value)
+                    if (enableFantasy.Value && !(sceneName == "helminthroost"))
                         profiles.Add(pp2);
                     if (enableAuburn.Value)
                         profiles.Add(pp3);
-                    if (enableAfternoon.Value)
+                    if (enableAfternoon.Value && !(sceneName == "helminthroost"))
                         profiles.Add(pp4);
-                    if (enableDrowned.Value)
+                    if (enableDrowned.Value && !(sceneName == "helminthroost"))
                         profiles.Add(pp5);
                     if (enableDreary.Value)
                         profiles.Add(pp6);
@@ -540,6 +543,8 @@ namespace CoolerStages
                                     GameObject.Find("DCPPInTunnels").SetActive(false);
                                 break;
                             case "helminthroost":
+                                //Afternoon very blue
+                                //drowned awful purple
                                 Stage5.Roost(testTerrainMat, testDetailMat, testDetailMat3, testDetailMat2, mainLight.color);
                                 break;
                             case "skymeadow":
