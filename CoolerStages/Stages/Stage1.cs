@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CoolerStages
 {
     public class Stage1
     {
+        private static Texture2D terrainSandTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainSand.tga").WaitForCompletion();
+        private static Texture2D tlDirtTex = Addressables.LoadAssetAsync<Texture2D>("RoR2/CU8/lakes/texTLTerrainDirt.tga").WaitForCompletion();
+
         public static void Falls(Material terrainMat, Material detailMat, Material detailMat2, Material detailMat3, Color32 color)
         {
             if (terrainMat && detailMat && detailMat2 && detailMat3)
@@ -47,58 +51,36 @@ namespace CoolerStages
             // TLArchi/TLDoor
         }
 
-        public static void Roost1(Material terrainMat, Material terrainMat2, Material detailMat, Material detailMat2, Material treeBase, Material branch, Material leaves, GameObject treeReplacement = null)
+        public static void Roost1(Material terrainMat, Material detailMat, Material detailMat2)
         {
-            GameObject.Find("GAMEPLAY SPACE").transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-            GameObject.Find("GAMEPLAY SPACE").transform.GetChild(1).GetChild(2).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
-
-            MeshRenderer[] meshList = UnityEngine.Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
-            foreach (MeshRenderer renderer in meshList)
+            if (terrainMat && detailMat && detailMat2)
             {
-                GameObject meshBase = renderer.gameObject;
-                if (meshBase != null)
+                GameObject.Find("GAMEPLAY SPACE").transform.GetChild(7).GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                GameObject.Find("GAMEPLAY SPACE").transform.GetChild(7).GetChild(1).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
+                MeshRenderer[] meshList = UnityEngine.Object.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
+                foreach (MeshRenderer renderer in meshList)
                 {
-                    if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
+                    GameObject meshBase = renderer.gameObject;
+                    if (meshBase != null)
                     {
-                        meshBase.SetActive(false);
-                    }
-                    if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Pebble") || meshBase.name.Contains("Detail")) && renderer.sharedMaterial)
-                        renderer.sharedMaterial = detailMat;
-                    if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("RuinArch") || meshBase.name.Contains("RuinGate")) && renderer.sharedMaterial)
-                        renderer.sharedMaterial = detailMat2;
-                    if ((meshBase.name.Contains("DistantPillar") || meshBase.name.Contains("Cliff") || meshBase.name.Contains("ClosePillar")) && renderer.sharedMaterial)
-                        renderer.sharedMaterial = terrainMat;
-                    if (meshBase.name.Contains("spmBbConif") && renderer.sharedMaterials.Length > 0)
-                    {
-                        if (treeReplacement == null)
+                        if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
                         {
-                            if (meshBase.name.Contains("Young"))
-                                // leaves leaves base
-                                renderer.sharedMaterials = new Material[3] { leaves, leaves, treeBase };
-                            else
-                                // stubs, branch, base, leaves
-                                renderer.sharedMaterials = new Material[4] { leaves, branch, treeBase, leaves };
+                            GameObject.Destroy(meshBase);
                         }
-                        else
-                        {
-                            foreach (Transform child in meshBase.transform.parent)
-                                child.gameObject.SetActive(false);
-                            GameObject.Instantiate(treeReplacement, meshBase.transform.parent).transform.localPosition = Vector3.zero;
-                        }
+                        if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Pebble") || meshBase.name.Contains("Detail")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat;
+                        if ((meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("RuinArch") || meshBase.name.Contains("RuinGate")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = detailMat2;
+                        if ((meshBase.name.Contains("DistantPillar") || meshBase.name.Contains("Cliff") || meshBase.name.Contains("ClosePillar")) && renderer.sharedMaterial)
+                            renderer.sharedMaterial = terrainMat;
                     }
-                    if (meshBase.name.Contains("Fern"))
-                    {
-                        GameObject.Destroy(meshBase.gameObject);
-                    }
-                    if (meshBase.name.Contains("Fern"))
-                        meshBase.SetActive(false);
                 }
             }
         }
 
-        public static void Roost2(Material terrainMat, Material terrainMat2, Material detailMat, Material detailMat2, Material treeBase, Material branch, Material leaves, GameObject treeReplacement = null)
+        public static void Roost2(Material terrainMat, Material detailMat, Material detailMat2)
         {
-            if (terrainMat && terrainMat2 && detailMat && detailMat2)
+            if (terrainMat && detailMat && detailMat2)
             {
                 Transform terrain = GameObject.Find("HOLDER: Terrain").transform.GetChild(0);
                 terrain.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = terrainMat;
@@ -113,7 +95,7 @@ namespace CoolerStages
                     {
                         if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
                         {
-                            meshBase.SetActive(false);
+                            GameObject.Destroy(meshBase);
                         }
                         if ((meshBase.name.Contains("Boulder") || meshBase.name.Contains("boulder") || meshBase.name.Contains("Rock") || meshBase.name.Contains("Step") || meshBase.name.Contains("Tile") || meshBase.name.Contains("mdlGeyser") || meshBase.name.Contains("Bowl") || meshBase.name.Contains("Marker") || meshBase.name.Contains("RuinPillar") || meshBase.name.Contains("DistantBridge")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = detailMat;
@@ -121,32 +103,12 @@ namespace CoolerStages
                             renderer.sharedMaterial = detailMat2;
                         if ((meshBase.name.Contains("DistantPillar") || meshBase.name.Contains("Cliff") || meshBase.name.Contains("ClosePillar")) && renderer.sharedMaterial)
                             renderer.sharedMaterial = terrainMat;
-                        if (meshBase.name.Contains("spmBbConif") && renderer.sharedMaterials.Length > 0)
-                        {
-                            if (treeReplacement == null)
-                            {
-                                if (meshBase.name.Contains("Young"))
-                                    renderer.sharedMaterials = new Material[3] { treeBase, leaves, treeBase };
-                                else if (meshBase.name.Contains("LOD1"))
-                                    renderer.sharedMaterials = new Material[4] { leaves, branch, treeBase, leaves };
-                                else
-                                    renderer.sharedMaterials = new Material[4] { leaves, treeBase, leaves, leaves };
-                            }
-                            else
-                            {
-                                foreach (Transform child in meshBase.transform.parent)
-                                    child.gameObject.SetActive(false);
-                                GameObject.Instantiate(treeReplacement, meshBase.transform.parent).transform.localPosition = Vector3.zero;
-                            }
-                        }
-                        if (meshBase.name.Contains("Decal") || meshBase.name.Contains("Fern"))
-                            meshBase.SetActive(false);
                     }
                 }
             }
         }
 
-        private static void Plains(Material terrainMat, Material detailMat, Material detailMat2, GameObject grass)
+        public static void Plains(Material terrainMat, Material detailMat, Material detailMat2)
         {
             if (terrainMat && detailMat && detailMat2)
             {
@@ -158,7 +120,6 @@ namespace CoolerStages
                     {
                         if (meshBase.name.Contains("Grass") && renderer.sharedMaterial)
                         {
-                            GameObject.Instantiate(grass, meshBase.transform.parent);
                             GameObject.Destroy(meshBase);
                         }
                         if ((meshBase.name.Contains("Terrain") || meshBase.name == "Wall North") && renderer.sharedMaterial)
