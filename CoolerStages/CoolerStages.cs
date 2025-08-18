@@ -520,8 +520,15 @@ namespace CoolerStages
                                 Stage3.Acres(testTerrainMat, testDetailMat, testDetailMat2);
                                 break;
                             case "sulfurpools":
-                                GameObject.Find("SPCavePP").SetActive(false);
-                                GameObject.Find("CameraRelative").transform.GetChild(1).gameObject.SetActive(false);
+                                GameObject spcavepp = GameObject.Find("SPCavePP");
+                                if (spcavepp) 
+                                    spcavepp.SetActive(false);
+                                GameObject camerarelativesmthing = GameObject.Find("CameraRelative");
+                                if (camerarelativesmthing)
+                                    try
+                                    {
+                                        camerarelativesmthing.transform.GetChild(1).gameObject.SetActive(false);
+                                    } catch { Debug.LogError("Please report to the mod maintainer on Thunderstore."); }
                                 Stage3.Pools(testTerrainMatAlt, testDetailMatAlt, testDetailMat2Alt);
                                 break;
                             case "rootjungle":
