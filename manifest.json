@@ -1,8 +1,8 @@
 ﻿{
-  "name": "CoolerStages",
+  "name": "CoolerStages_Continued",
   "version_number": "2.0.0",
-  "website_url": "https://github.com/FocusedFault/CoolerStages/issues",
-  "description": "Placeholder. Reworked for SOTS",
+  "website_url": "https://github.com/NicolasFelber/CoolerStages/issues",
+  "description": "Changes the look of Stages",
   "dependencies": [
     "bbepis-BepInExPack-5.4.2111",
     "RiskofThunder-HookGenPatcher-1.2.3"
